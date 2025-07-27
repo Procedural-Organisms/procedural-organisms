@@ -268,30 +268,23 @@ int main(){
      glUseProgram(shaderProgram);
 
 
-     /* Volver a vincular VAO y dibujar una imagen
-        volvemos a cargar el vertex array object para decirle a OpenGL como interpretar
-        los datos que ya estan cargados en el buffer.
-        luego utilizamos la funcion glDrawArrays para dibujar una forma usando los datos
-        guardados en el buffer y las instrucciones del VAO
-        - el primer parametro el el tipo de primitiva, si va a dibujar puntos, lineas o
-        triangulos
-        - el segundo parametro es el indice de incicio que le dice al programa con que 
-        vertice empezar el dibujo
-        - el tercer parametro le dice al programa cuantos vertices dibujar */
-     glBindVertexArray(VAO); 
-     glDrawArrays(GL_TRIANGLES, 0, 3);
+     // Creacion de render loop
+     while(true){
+        /* Volver a vincular VAO y dibujar una imagen
+            volvemos a cargar el vertex array object para decirle a OpenGL como interpretar
+            los datos que ya estan cargados en el buffer.
+            luego utilizamos la funcion glDrawArrays para dibujar una forma usando los datos
+            guardados en el buffer y las instrucciones del VAO
+            - el primer parametro el el tipo de primitiva, si va a dibujar puntos, lineas o
+            triangulos
+            - el segundo parametro es el indice de incicio que le dice al programa con que 
+            vertice empezar el dibujo
+            - el tercer parametro le dice al programa cuantos vertices dibujar */
+        glBindVertexArray(VAO); 
+        glDrawArrays(GL_TRIANGLES, 0, 3);
+     }
 
-
-     // Vaciar el contenido del buffer
-     glFlush();                         
      
-
-     // Guardar imagen en formato PNG:
-     stbi_flip_vertically_on_write(true);
-     stbi_write_png("output.png", width, height, 4, buffer.data(), width * 4);
-     std::cout << "Image saved successfully!" << std::endl;
-
-
     // Limpieza de recursos y finalizacion de programa
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
