@@ -7,14 +7,40 @@
 #include <string>               // manejo de strings
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include <stb_image_write.h>    // generacion de archivos PNG
+#include <csignal>              // le permite al programa reaccionat a ctrl + c
+#include <thread>               // le permite al programa dormir o pausar
+#include <chrono>               // utilidades de tiempo
+
+
+// ==================== Declaracion de funciones ====================
+
+// Declaracion de funcion que detecta el numero de señal que entra por la terminal
+// para detectar ctrl + c y finalizar programa correctamente
+void handle_sigint(int);
 
 // Declacion de funcion que lee un archivo de shader en la direccion que se introduce
 // y regresa el contenido de este archivo en un dato de tipo string
 std::string loadShaderSource(const char* shaderPath);
 
+
+// ==================== Declaracion de variables ====================
+
+// Variable que le dice al programa si esta corriendo
+// la vamos a usar para salir del render loop y finalizar el programa correctamente
+bool running = true;
+
 // Dimensiones de imagen
 const int width = 800;
 const int height = 600;
+
+
+// ==================== Definicion de funciones ====================
+
+// definicion de funcion para detectar señales de la terminal
+void handle_sigint(int){
+    running = false;
+}
+
 
 // Definicion de funcion para convertir contenido de archivo de shaders a string
 std::string loadShaderSource(const char* shaderPath){
@@ -43,8 +69,18 @@ std::string loadShaderSource(const char* shaderPath){
     return shaderCode;
 }
 
+
+// ==================== Funcion main() ====================
+
 int main(){
     
+    // La funcion signal le dice a la funcion handle_sigint que se tiene que ejecutar
+    // cuando entre la señal SIGINT (signal interrupt ctrl + c)
+    std::signal(SIGINT, handle_sigint);
+
+
+
+    // ==================== Inicializacion OpenGL ====================
 
     /* Creacion de buffer de pixeles en memoria RAM:
         creamos un vector donde cada elemento tiene el tamaño de 1 byte o 4 dependiendo
@@ -111,6 +147,8 @@ int main(){
         // Mensaje si se logra inicializar GLAD
    std::cout << "GLAD initialized successfully!" << std::endl;
 
+
+   // ==================== Compilacion y linkeo de shaders ====================
 
    // Lectura de shader sources y convercion a string
    // TODO: Buscar como usar paths relativos
@@ -183,6 +221,8 @@ int main(){
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
 
+
+    // ==================== Configuracion VBO & VAO ====================
 
     /* definicion de vertices: 
      guardamos en un array las coordenadas 3D de cada punto de cada triangulo */
@@ -268,8 +308,10 @@ int main(){
      glUseProgram(shaderProgram);
 
 
-     // Creacion de render loop
-     while(true){
+     // ==================== Render loop ====================
+
+     // Creacion de render loop que termina cuando running = false (ctrl - c)
+     while(running){
         /* Volver a vincular VAO y dibujar una imagen
             volvemos a cargar el vertex array object para decirle a OpenGL como interpretar
             los datos que ya estan cargados en el buffer.
@@ -282,13 +324,23 @@ int main(){
             - el tercer parametro le dice al programa cuantos vertices dibujar */
         glBindVertexArray(VAO); 
         glDrawArrays(GL_TRIANGLES, 0, 3);
+
+
+
+
+        // esta funcion le dice al programa que pause por un milisegundo, necesaria para
+        // detectar señales de la terminal como ctrl + c para terminar el programa
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
      }
 
      
+    // ==================== Finalizacion del programa ====================
+
     // Limpieza de recursos y finalizacion de programa
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
     glDeleteProgram(shaderProgram);
     OSMesaDestroyContext(context);
+    std::cout << "\nExited render loop and cleared up resources successfully!" << std::endl;
     return 0;
 }
