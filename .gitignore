@@ -2,5 +2,7 @@
 *.exe
 *.out
 *.bin
+*.png
+*.mp4
 osmesa-env
 *.dSYM/

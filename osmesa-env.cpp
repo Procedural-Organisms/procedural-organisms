@@ -6,8 +6,7 @@
 #include <sstream>              // conversionn de contenido de archivos a string
 #include <string>               // manejo de strings
 #define STB_IMAGE_WRITE_IMPLEMENTATION
-#include <stb_image_write.h>    // generacion de archivos PNG
-#include <csignal>              // le permite al programa reaccionat a ctrl + c
+#include <csignal>              // le permite al programa reaccionar a ctrl + c
 #include <thread>               // le permite al programa dormir o pausar
 #include <chrono>               // utilidades de tiempo
 
@@ -60,7 +59,8 @@ std::string loadShaderSource(const char* shaderPath){
     }
     catch(std::ifstream::failure e){
     // Generacion de mensaje de error
-        std::cout << "ERROR:SHADER:FILE_NOT_SUCCESSFULLY_READ\n"
+    // OJO: Se tiene que usar cerr envez de cout porque cout corrompe el stream de datos por pipe
+        std::cerr << "ERROR:SHADER:FILE_NOT_SUCCESSFULLY_READ\n" 
         << "Path: " << shaderPath << "\n"
         << "Error: " <<  e.what()<< std::endl;
         return "";
@@ -103,12 +103,12 @@ int main(){
     OSMesaContext context = OSMesaCreateContextExt(OSMESA_RGBA, 24, 0, 0, NULL);
     if (!context){
         // Mensaje de error si creacion de contexto falla
-        std::cout << "Failed to create OSMesa context" << std::endl;
+        std::cerr << "Failed to create OSMesa context" << std::endl;
         // finalizacion de programa
         return -1;
     }
         // Mensaje si el contexto se logra crear
-    std::cout << "OSMesa context created successfully!" << std::endl;
+    std::cerr << "OSMesa context created successfully!" << std::endl;
 
 
     /* Hacer que el contexto sea actual:
@@ -120,13 +120,13 @@ int main(){
         anchura de la imagen y la altura de la imagen */
     if (!OSMesaMakeCurrent(context, buffer.data(), GL_UNSIGNED_BYTE, width, height)){
         // Mensaje de error si hacer que el contexto sea actual falla, 
-        std::cout << "Failed to make context current" << std::endl;
+        std::cerr << "Failed to make context current" << std::endl;
         // destruccion de contexto y finalizacion de programa
         OSMesaDestroyContext(context);
         return -1;
     }
         // Mensaje si se logra hacer que el contexto sea actual
-    std::cout << "Context made current successfully!" << std::endl;
+    std::cerr << "Context made current successfully!" << std::endl;
 
 
     /* Inicializacion de GLAD:
@@ -139,21 +139,21 @@ int main(){
     las carga */
    if (!gladLoadGLLoader((GLADloadproc)OSMesaGetProcAddress)){
         // Mensaje si la inicializacion de GLAD falla, 
-        std::cout << "Failed to initialize GLAD" << std::endl;
+        std::cerr << "Failed to initialize GLAD" << std::endl;
         // destruccion de contexto y finalizacion de programa
         OSMesaDestroyContext(context);
         return -1;
    }
         // Mensaje si se logra inicializar GLAD
-   std::cout << "GLAD initialized successfully!" << std::endl;
+   std::cerr << "GLAD initialized successfully!" << std::endl;
 
 
    // ==================== Compilacion y linkeo de shaders ====================
 
    // Lectura de shader sources y convercion a string
    // TODO: Buscar como usar paths relativos
-   std::string vertexCode = loadShaderSource("/Users/elektronischesstudio/Documents/01 proyectos/practica_opengl/00_LearnOpenGL_propio/basic.vert");
-   std::string fragmentCode = loadShaderSource("/Users/elektronischesstudio/Documents/01 proyectos/practica_opengl/00_LearnOpenGL_propio/basic.frag");
+   std::string vertexCode = loadShaderSource("/Users/elektronischesstudio/Documents/01 proyectos/practica_opengl/01_osmesa/basic.vert");
+   std::string fragmentCode = loadShaderSource("/Users/elektronischesstudio/Documents/01 proyectos/practica_opengl/01_osmesa/basic.frag");
    const char* vertexShaderSource = vertexCode.c_str();
    const char* fragmentShaderSource= fragmentCode.c_str();
 
@@ -170,13 +170,13 @@ int main(){
     if(!success){
         glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
         // Mensaje si la compilacion de vertex shader falla
-        std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
+        std::cerr << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
         // Destruccion de contexto y finalizacion de programa
         OSMesaDestroyContext(context);
         return -1;
     }
     // Mensaje si se logra compilar el vertex shader
-    std::cout << "Vertex shader compiled successfully!" << std::endl;
+    std::cerr << "Vertex shader compiled successfully!" << std::endl;
 
 
     /* Compilacion de fragment shader:
@@ -189,13 +189,13 @@ int main(){
     if(!success){
         glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
         // Mensaje si la compilacion de fragment shader falla
-        std::cout << "ERROR::SHADER::FRAGMENT:COMPILATION_FAILED" << infoLog << std::endl;
+        std::cerr << "ERROR::SHADER::FRAGMENT:COMPILATION_FAILED" << infoLog << std::endl;
         // destruccion de contexto y vertex shader y finalizacion de programa
         glDeleteShader(vertexShader);
         OSMesaDestroyContext(context);
     }
     // mensaje si se logra compilar el fragment shader
-    std::cout << "Fragment shader compiled successfully!" << std::endl;
+    std::cerr << "Fragment shader compiled successfully!" << std::endl;
   
 
     /* Creacion de shader program y linkeo de shaders:
@@ -209,14 +209,14 @@ int main(){
     if(!success){
         glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
         // mensaje si el linkeo de shader falla
-        std::cout << "ERROR:SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
+        std::cerr << "ERROR:SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
         glDeleteShader(vertexShader);
         glDeleteShader(fragmentShader);
         OSMesaDestroyContext(context);
         return -1;
     }
     // mensaje si se logran linkear los shaders
-    std::cout << "Shader program linked successfully!" << std::endl;
+    std::cerr << "Shader program linked successfully!" << std::endl;
     // eliminacion de shaders ya linkeados
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
@@ -295,15 +295,6 @@ int main(){
      glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 
-     /* definir un color con el cual limpiar el color buffer y limpiarlo:
-        glClearColor se usa para definir el color con el que se va a limpiar el color
-        buffer y glClear se usa para especificar que buffer se quiere limpiar y 
-        limpiarlo, en este caso el color buffer. Se pueden limpiar varios buffers con
-        una sola funcion separandolos con "|" */
-     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-     glClear(GL_COLOR_BUFFER_BIT);
-
-
      // cargar el shader program a OpenGL
      glUseProgram(shaderProgram);
 
@@ -312,7 +303,17 @@ int main(){
 
      // Creacion de render loop que termina cuando running = false (ctrl - c)
      while(running){
-        /* Volver a vincular VAO y dibujar una imagen
+       
+        /* definir un color con el cual limpiar el color buffer y limpiarlo:
+            glClearColor se usa para definir el color con el que se va a limpiar el color
+            buffer y glClear se usa para especificar que buffer se quiere limpiar y 
+            limpiarlo, en este caso el color buffer. Se pueden limpiar varios buffers con
+            una sola funcion separandolos con "|" */
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+        
+        
+        /* Volver a vincular VAO y dibujar una imagen:
             volvemos a cargar el vertex array object para decirle a OpenGL como interpretar
             los datos que ya estan cargados en el buffer.
             luego utilizamos la funcion glDrawArrays para dibujar una forma usando los datos
@@ -321,16 +322,29 @@ int main(){
             triangulos
             - el segundo parametro es el indice de incicio que le dice al programa con que 
             vertice empezar el dibujo
-            - el tercer parametro le dice al programa cuantos vertices dibujar */
+            - el tercer parametro le dice al programa cuantos vertices dibujar
+            Por ultima le decimos a OpenGL con glFlush que ejecute los comandos de dibujo */
         glBindVertexArray(VAO); 
         glDrawArrays(GL_TRIANGLES, 0, 3);
+        glFlush(); 
 
+        
+        /* Transmitir datos a FFmpeg:
+        con .write le decimos a std::cout que transmita datos binarios en vez de texo
+        esta funcion necesita 2 parametros, la direccion de donde se encuentra la data la cual
+        extraemos con buffer.data pero convertida a char con reinterpret_cast. 
+        y el segundo parametro representa la cantidad de bits que se quieren transmitir.
+        4 bytes por pixel que representan R*G*B*A.
+        luego std::cout.flush(); transmite inmediatamente la data al output del programa sin esperar a
+        que el buffer se llene por completo */
+        std::cout.write(reinterpret_cast<char*>(buffer.data()), width * height * 4);
+        std::cout.flush();
+        
 
-
-
-        // esta funcion le dice al programa que pause por un milisegundo, necesaria para
-        // detectar señales de la terminal como ctrl + c para terminar el programa
-        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        // esta funcion le dice al programa que pause por cierta cantidad de milisegundos
+        // necesaria para detectar señales de la terminal como ctrl + c para terminar el programa
+        // y usada tambien temporalmente para limitar framerate
+        std::this_thread::sleep_for(std::chrono::milliseconds(20));
      }
 
      
@@ -341,6 +355,6 @@ int main(){
     glDeleteBuffers(1, &VBO);
     glDeleteProgram(shaderProgram);
     OSMesaDestroyContext(context);
-    std::cout << "\nExited render loop and cleared up resources successfully!" << std::endl;
+    std::cerr << "\nExited render loop and cleared up resources successfully!" << std::endl;
     return 0;
 }
