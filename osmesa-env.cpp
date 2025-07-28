@@ -32,6 +32,13 @@ bool running = true;
 const int width = 800;
 const int height = 600;
 
+/* Tiempo al iniciar programa
+    std::chrono::steady_clock es la manera de acceder al clock de la computadora
+    y con el metodo .now le decimos al programa que extraiga el valor actual y lo
+    guarden en la variable startTime y seleccione automaticamente el tipo de valor
+    al que lo tenga que guardar */
+auto startTime = std::chrono::steady_clock::now();
+
 
 // ==================== Definicion de funciones ====================
 
@@ -227,9 +234,9 @@ int main(){
     /* definicion de vertices: 
      guardamos en un array las coordenadas 3D de cada punto de cada triangulo */
      float vertices[] = {
-        -0.5f, -0.5f, 0.0f,
-        0.5f, -0.5f, 0.0f,
-        0.0f, 0.5f, 0.0f
+        -0.9f, -0.9f, 0.0f,
+        0.9f, -0.9f, 0.0f,
+        0.0f, 0.9f, 0.0f
      };
 
 
@@ -304,6 +311,30 @@ int main(){
      // Creacion de render loop que termina cuando running = false (ctrl - c)
      while(running){
        
+        /* Calcular tiempo desde que se inicio el programa:
+            con cada repeticion de loop guardamos el tiempo actual en la variable now, a esa
+            variable le restamos el tiempo en el que iniciamos el programa y usando
+            std::chrono::duration<float> le decimos al programa que guarde ese valor en segundos
+            float en la variable timeValue */
+        auto now = std::chrono::steady_clock::now();
+        std::chrono::duration<float> elapsed = now - startTime;
+        float timeValue = elapsed.count();
+
+
+        /* Generar funcion seno:
+            generamos una funcion senoseudal usando el tiempo actual como variable y guardamos
+            sus valores en la variable sinNormalizada. lugego con la funcion glGetUniformLocations
+            localizamos todas las menciones de la uniforme sinGenerator en en shaderProgram y las
+            guardamos en la variable sinesLocations.
+            luego que le decimos a OpenGL que utilice ese programa shaderProgram y que vicule 
+            nuestra variable en el source sinNormalizada con las localizaciones en el shaderProgram
+            donde se menciona sinGenerator */
+        float sinNormalizada = (std::sin(timeValue) / 2.0f) + 0.5f;
+        int sinesLocations = glGetUniformLocation(shaderProgram,"sinGenerator");
+        glUseProgram(shaderProgram);
+        glUniform1f(sinesLocations, sinNormalizada);
+
+
         /* definir un color con el cual limpiar el color buffer y limpiarlo:
             glClearColor se usa para definir el color con el que se va a limpiar el color
             buffer y glClear se usa para especificar que buffer se quiere limpiar y 
@@ -344,7 +375,7 @@ int main(){
         // esta funcion le dice al programa que pause por cierta cantidad de milisegundos
         // necesaria para detectar señales de la terminal como ctrl + c para terminar el programa
         // y usada tambien temporalmente para limitar framerate
-        std::this_thread::sleep_for(std::chrono::milliseconds(20));
+        std::this_thread::sleep_for(std::chrono::milliseconds(27));
      }
 
      
