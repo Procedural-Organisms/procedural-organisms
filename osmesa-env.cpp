@@ -9,6 +9,7 @@
 #include <csignal>              // le permite al programa reaccionar a ctrl + c
 #include <thread>               // le permite al programa dormir o pausar
 #include <chrono>               // utilidades de tiempo
+#include <cmath>                // funciones matematicas como sin()
 
 
 // ==================== Declaracion de funciones ====================
@@ -29,8 +30,8 @@ std::string loadShaderSource(const char* shaderPath);
 bool running = true;
 
 // Dimensiones de imagen
-const int width = 800;
-const int height = 600;
+const int width = 400;
+const int height = 300;
 
 /* Tiempo al iniciar programa
     std::chrono::steady_clock es la manera de acceder al clock de la computadora
@@ -159,8 +160,8 @@ int main(){
 
    // Lectura de shader sources y convercion a string
    // TODO: Buscar como usar paths relativos
-   std::string vertexCode = loadShaderSource("/Users/elektronischesstudio/Documents/01 proyectos/practica_opengl/01_osmesa/basic.vert");
-   std::string fragmentCode = loadShaderSource("/Users/elektronischesstudio/Documents/01 proyectos/practica_opengl/01_osmesa/basic.frag");
+   std::string vertexCode = loadShaderSource("/home/procedural_organisms/opengl-renderer/procedural-organisms/basic.vert");
+   std::string fragmentCode = loadShaderSource("/home/procedural_organisms/opengl-renderer/procedural-organisms/basic.frag");
    const char* vertexShaderSource = vertexCode.c_str();
    const char* fragmentShaderSource= fragmentCode.c_str();
 
@@ -375,7 +376,7 @@ int main(){
         // esta funcion le dice al programa que pause por cierta cantidad de milisegundos
         // necesaria para detectar señales de la terminal como ctrl + c para terminar el programa
         // y usada tambien temporalmente para limitar framerate
-        std::this_thread::sleep_for(std::chrono::milliseconds(27));
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
      }
 
      
