@@ -6,17 +6,14 @@
 #include <sstream>              // conversionn de contenido de archivos a string
 #include <string>               // manejo de strings
 #define STB_IMAGE_WRITE_IMPLEMENTATION
-#include <csignal>              // le permite al programa reaccionar a ctrl + c
 #include <thread>               // le permite al programa dormir o pausar
 #include <chrono>               // utilidades de tiempo
 #include <cmath>                // funciones matematicas como sin()
 
+#include "program_exit/program_exit.h"  // funcion para salir del render loop y finalizar programa
+
 
 // ==================== Declaracion de funciones ====================
-
-// Declaracion de funcion que detecta el numero de señal que entra por la terminal
-// para detectar ctrl + c y finalizar programa correctamente
-void handle_sigint(int);
 
 // Declacion de funcion que lee un archivo de shader en la direccion que se introduce
 // y regresa el contenido de este archivo en un dato de tipo string
@@ -24,10 +21,6 @@ std::string loadShaderSource(const char* shaderPath);
 
 
 // ==================== Declaracion de variables ====================
-
-// Variable que le dice al programa si esta corriendo
-// la vamos a usar para salir del render loop y finalizar el programa correctamente
-bool running = true;
 
 // Dimensiones de imagen
 const int width = 400;
@@ -42,12 +35,6 @@ auto startTime = std::chrono::steady_clock::now();
 
 
 // ==================== Definicion de funciones ====================
-
-// definicion de funcion para detectar señales de la terminal
-void handle_sigint(int){
-    running = false;
-}
-
 
 // Definicion de funcion para convertir contenido de archivo de shaders a string
 std::string loadShaderSource(const char* shaderPath){
@@ -81,12 +68,9 @@ std::string loadShaderSource(const char* shaderPath){
 // ==================== Funcion main() ====================
 
 int main(){
-    
-    // La funcion signal le dice a la funcion handle_sigint que se tiene que ejecutar
-    // cuando entre la señal SIGINT (signal interrupt ctrl + c)
-    std::signal(SIGINT, handle_sigint);
 
-
+    // Salir del render loop y finalizar programa con ctrl + c
+    program_exit();
 
     // ==================== Inicializacion OpenGL ====================
 
@@ -154,14 +138,15 @@ int main(){
    }
         // Mensaje si se logra inicializar GLAD
    std::cerr << "GLAD initialized successfully!" << std::endl;
+   
 
 
    // ==================== Compilacion y linkeo de shaders ====================
 
    // Lectura de shader sources y convercion a string
    // TODO: Buscar como usar paths relativos
-   std::string vertexCode = loadShaderSource("/home/procedural_organisms/opengl-renderer/procedural-organisms/basic.vert");
-   std::string fragmentCode = loadShaderSource("/home/procedural_organisms/opengl-renderer/procedural-organisms/basic.frag");
+   std::string vertexCode = loadShaderSource("video-generator/shaders/basic.vert");
+   std::string fragmentCode = loadShaderSource("video-generator/shaders/basic.frag");
    const char* vertexShaderSource = vertexCode.c_str();
    const char* fragmentShaderSource= fragmentCode.c_str();
 
@@ -311,7 +296,7 @@ int main(){
 
      // Creacion de render loop que termina cuando running = false (ctrl - c)
      while(running){
-       
+
         /* Calcular tiempo desde que se inicio el programa:
             con cada repeticion de loop guardamos el tiempo actual en la variable now, a esa
             variable le restamos el tiempo en el que iniciamos el programa y usando

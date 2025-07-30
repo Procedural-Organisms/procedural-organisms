@@ -1,8 +1,41 @@
+# Build artifacts
 *.o
+*.obj
 *.exe
 *.out
 *.bin
-*.png
-*.mp4
-osmesa-env
+*.a
+*.so
+*.dylib
+*/libs/
+
+# Compiled binary output
+*/build/
 *.dSYM/
+*.dll
+
+# Media files
+*.png
+*.jpg
+*.jpeg
+*.mp4
+
+# Environment and cache
+osmesa-env
+*.log
+
+# VSCode settings
+.vscode/
+*.code-workspace
+
+# macOS system files
+.DS_Store
+
+# CMake and Make
+CMakeFiles/
+CMakeCache.txt
+Makefile
+
+# Others
+*.swp
+*.swo
