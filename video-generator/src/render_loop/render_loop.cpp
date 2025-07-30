@@ -2,6 +2,7 @@
 #include <iostream>             // inputs y outputs de la consola (mensajes de error)
 #include <thread>               // le permite al programa dormir o pausar
 #include <chrono>               // utilidades de tiempo
+#include <cmath>                // funciones matematicas como sin()
 
 #include "render_loop.h"
 
@@ -73,6 +74,6 @@ void render_loop(){
         // esta funcion le dice al programa que pause por cierta cantidad de milisegundos
         // necesaria para detectar señales de la terminal como ctrl + c para terminar el programa
         // y usada tambien temporalmente para limitar framerate
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        std::this_thread::sleep_for(std::chrono::milliseconds(20));
      }
 }
