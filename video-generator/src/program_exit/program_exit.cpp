@@ -1,8 +1,6 @@
 #include <csignal>              // le permite al programa reaccionar a ctrl + c
 #include "program_exit.h"
 
-bool running = true;
-
 // definicion de funcion para detectar señales de la terminal
 void handle_sigint(int){
     running = false;
