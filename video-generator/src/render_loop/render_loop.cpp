@@ -74,6 +74,6 @@ void render_loop(){
         // esta funcion le dice al programa que pause por cierta cantidad de milisegundos
         // necesaria para detectar señales de la terminal como ctrl + c para terminar el programa
         // y usada tambien temporalmente para limitar framerate
-        std::this_thread::sleep_for(std::chrono::milliseconds(20));
+        std::this_thread::sleep_for(std::chrono::milliseconds(15));
      }
 }
