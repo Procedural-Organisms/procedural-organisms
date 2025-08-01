@@ -19,6 +19,7 @@
 *.jpg
 *.jpeg
 *.mp4
+*.wav
 
 # Environment and cache
 osmesa-env
