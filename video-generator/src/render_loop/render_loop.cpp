@@ -3,10 +3,15 @@
 #include <thread>               // le permite al programa dormir o pausar
 #include <chrono>               // utilidades de tiempo
 #include <cmath>                // funciones matematicas como sin()
+#include <fstream>              // creacion de flag
 
 #include "render_loop.h"
 
 void render_loop(){
+
+    // variable para avisarle al programa que la flag para iniciar audio no existe
+    bool flag_exists = false;
+
     // Creacion de render loop que termina cuando running = false (ctrl - c)
      while(running){
 
@@ -69,8 +74,13 @@ void render_loop(){
         que el buffer se llene por completo */
         std::cout.write(reinterpret_cast<char*>(buffer.data()), width * height * 4);
         std::cout.flush();
-        
 
+        // crear flag para iniciar transmicion de audio directamente despues del primer frame
+        if(!flag_exists){
+            std::ofstream flag("video_started.flag");
+            flag.close();
+            flag_exists = true;
+        }
         // esta funcion le dice al programa que pause por cierta cantidad de milisegundos
         // necesaria para detectar señales de la terminal como ctrl + c para terminar el programa
         // y usada tambien temporalmente para limitar framerate
