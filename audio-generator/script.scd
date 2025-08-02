@@ -1,7 +1,7 @@
 s.options.hardwareBufferSize = 2048;
 s.options.blockSize = 512;
 s.options.sampleRate = 44100;
-s.options.recHeaderFormat = "wav";
+s.options.recHeaderFormat = "raw";
 s.options.recSampleFormat = "int16";
 s.options.numOutputBusChannels = 2;
 s.options.numInputBusChannels = 0;
@@ -16,7 +16,7 @@ s.waitForBoot{
     Routine{
         var flagPath = "/Users/elektronischesstudio/Documents/01_proyectos/procedural-organisms/video_started.flag";
         while {File.exists(flagPath).not}{0.1.wait};
-        2.wait;
+        5.wait;
         "Video started, starting audio and transmition.".postln;
 
         // inicializart de sintetizador

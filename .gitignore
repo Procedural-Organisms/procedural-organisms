@@ -24,6 +24,7 @@
 # Environment and cache
 osmesa-env
 *.log
+*.flag
 
 # VSCode settings
 .vscode/
