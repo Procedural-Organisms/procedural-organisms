@@ -39,7 +39,7 @@ void render_loop(){
             luego que le decimos a OpenGL que utilice ese programa shaderProgram y que vicule 
             nuestra variable en el source sinNormalizada con las localizaciones en el shaderProgram
             donde se menciona sinGenerator */
-        float sinNormalizada = (std::sin(timeValue) / 2.0f) + 0.5f;
+        float sinNormalizada = (std::sin(2 * M_PI * 0.25f * timeValue) / 2.0f) + 0.5f;
         int sinesLocations = glGetUniformLocation(shaderProgram,"sinGenerator");
         glUseProgram(shaderProgram);
         glUniform1f(sinesLocations, sinNormalizada);
