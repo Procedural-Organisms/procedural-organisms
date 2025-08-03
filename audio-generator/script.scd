@@ -7,14 +7,18 @@ s.options.numOutputBusChannels = 0;
 s.options.numInputBusChannels = 0;
 s.boot;
 
+~audio_ready = "temp/flags/audio_ready.flag";
+~video_started = "temp/flags/video_started.flag";
+~audio_pipe = "temp/pipes/audio_pipe";
+
 s.waitForBoot{
     // crear flag de inicializacion de servidor
-    File("/Users/elektronischesstudio/Documents/01_proyectos/procedural-organisms/temp/flags/audio_ready.flag", "w").close;
+    File(~audio_ready, "w").close;
     "Audio server ready. Waiting for video.".postln;
 
     // esperar a flag de inicializacion de video
     Routine{
-        var flagPath = "/Users/elektronischesstudio/Documents/01_proyectos/procedural-organisms/temp/flags/video_started.flag";
+        var flagPath = ~video_started;
         while {File.exists(flagPath).not}{0.1.wait};
         "Video started, starting audio and transmition.".postln;
 
@@ -25,7 +29,7 @@ s.waitForBoot{
         }.play;
 
         // transmitir a fifo
-        s.record(path: "/Users/elektronischesstudio/Documents/01_proyectos/procedural-organisms/temp/pipes/audio_pipe", numChannels: 2);
+        s.record(path: ~audio_pipe, numChannels: 2);
 
     }.play;
 };
