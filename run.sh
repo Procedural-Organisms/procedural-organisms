@@ -16,7 +16,7 @@ video_generator="video-generator/build/main"
 # lacalizacion de sintetizador
 audio_generator="audio-generator/script.scd"
 # localizacion de output
-output="test/output.mp4"
+output="rtmp://a.rtmp.youtube.com/live2/caee-596b-76td-tv9k-8g21"
 
 # eliminar pipes
 rm -f "$audio_pipe"
@@ -49,7 +49,6 @@ done
 while !lsof "$video_pipe" | grep -q ffmpeg; do
     sleep 0.1
 done
-sleep 5
 touch "$ffmpeg_started"
 } &
 
@@ -58,6 +57,13 @@ ffmpeg \
 -f rawvideo -pix_fmt rgba -video_size 400x300 -use_wallclock_as_timestamps 1 -i "$video_pipe" \
 -f s16le -ar 44100 -ac 2 -i "$audio_pipe" \
 -vf "vflip" \
--r 30 -c:v libx264 -c:a aac -pix_fmt yuv420p -t 20 "$output"
+-r 30 -f flv -c:v libx264 -pix_fmt yuv420p -b:v 400k -c:a aac -ar 44100 -b:a 128k \
+"$output"
 
-
+# eliminar pipes
+rm -f "$audio_pipe"
+rm -f "$video_pipe"
+# eliminar flags
+rm -f "$audio_ready"
+rm -f "$ffmpeg_started"
+rm -f "$video_started"
