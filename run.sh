@@ -42,10 +42,14 @@ fi
 mkfifo "$audio_pipe"
 mkfifo "$video_pipe"
 
-# Iniciar servidor JACK
-jackd -d dummy -r 44100 -p 512 &
-JACK_PID=$!
-sleep 2
+# Iniciar servidor JACK solo en Linux
+if [[ "$OSTYPE" != "darwin"* ]]; then
+    jackd -d dummy -r 44100 -p 512 &
+    JACK_PID=$!
+    sleep 2
+else
+    JACK_PID=""
+fi
 
 # inciciar script superCollider
 # que inicia servidor y espera a que comience la generacion de video
@@ -76,14 +80,14 @@ ffmpeg \
 -vf "vflip" \
 -r 30 -f flv -c:v libx264 -pix_fmt yuv420p -b:v 400k -c:a aac -ar 44100 -b:a 128k "$output"
 
-kill $JACK_PID $AUDIO_GENERATOR_PID $VIDEO_GENERATOR_PID
-wait $JACK_PID $AUDIO_GENERATOR_PID $VIDEO_GENERATOR_PID
+# liberacion de recursos y eliminacion de archivos temporales
+cleanup() {
+    echo "Cleaning up..."
+    kill $JACK_PID $AUDIO_GENERATOR_PID $VIDEO_GENERATOR_PID 2>/dev/null
+    wait $JACK_PID $AUDIO_GENERATOR_PID $VIDEO_GENERATOR_PID 2>/dev/null
+    rm -f "$audio_pipe" "$video_pipe"
+    rm -f "$audio_ready" "$ffmpeg_started" "$video_started"
+}
 
-# eliminar pipes
-rm -f "$audio_pipe"
-rm -f "$video_pipe"
-# eliminar flags
-rm -f "$audio_ready"
-rm -f "$ffmpeg_started"
-rm -f "$video_started"
+trap cleanup EXIT SIGINT
 
