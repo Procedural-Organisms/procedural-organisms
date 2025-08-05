@@ -7,11 +7,18 @@ void buffer_configuration(){
     // ==================== Configuracion VBO & VAO ====================
 
     /* definicion de vertices: 
-     guardamos en un array las coordenadas 3D de cada punto de cada triangulo */
+      guardamos en un array las coordenadas 3D de cada punto que queremos guardar */
      float vertices[] = {
         -0.9f, -0.9f, 0.0f,
         0.9f, -0.9f, 0.0f,
         0.0f, 0.9f, 0.0f
+     };
+     
+   
+    /* difinicion de indices
+      guardamos en un array la direcion de cada punto que queremos dibujar */
+     unsigned int indices[] = {
+         0, 1, 2
      };
 
 
@@ -22,9 +29,12 @@ void buffer_configuration(){
         es mas acerca de la comunicacion entre el programa y OpenGL y como utilizar
         el espacio en la RAM alocado para el VBO
         El vertex array object (VAO) le dice a la computadora como interpretar los datos 
-        del VBO */
+        del VBO
+        con el EBO podemos usar direcciones de puntos para dibujar envez de tener que
+        escribir cada coordenada */
      glGenBuffers(1, &VBO);         // creacion de VBO y asignacion de ID a variable
      glGenVertexArrays(1, &VAO);    // creacion de VAO y asignacion de ID a variable
+     glGenBuffers(1, &EBO);         // creacion de EBO y asignacion de ID a variable
 
 
      /* Copiar data de vertices array object a VBO:
@@ -36,6 +46,12 @@ void buffer_configuration(){
         o dinamica) */
      glBindBuffer(GL_ARRAY_BUFFER, VBO);
      glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+     
+
+     // copiar data de indices a EBO
+     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
 
 
      /* Copiar data a VAO para decirle a OpenGL como interpretar el VBO:
@@ -66,13 +82,14 @@ void buffer_configuration(){
      glEnableVertexAttribArray(0);
 
 
-     /* Desvincular VBO y VAO:
+     /* Desvincular VBO, VAO y EBO:
         despues de haber vinculado el *V*ertex *B*uffer *O*ject y el
         *V*ertices *A*rray *O*bject y haber transmitido la data a donde tenia que ser
         transmitida, la data queda guardada en ese lugar y podemos desvincul el VBO y
         el VAO lo cual es buena practica para evitar modificaciones accidentales */
      glBindVertexArray(0);
      glBindBuffer(GL_ARRAY_BUFFER, 0);
+     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 
      // cargar el shader program a OpenGL

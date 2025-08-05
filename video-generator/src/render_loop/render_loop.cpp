@@ -66,7 +66,8 @@ void render_loop(){
             - el tercer parametro le dice al programa cuantos vertices dibujar
             Por ultima le decimos a OpenGL con glFlush que ejecute los comandos de dibujo */
         glBindVertexArray(VAO); 
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+        glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
         glFlush(); 
 
         

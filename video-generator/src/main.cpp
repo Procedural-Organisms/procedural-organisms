@@ -49,8 +49,10 @@ unsigned int shaderProgram = 0;
 
 // Variable con ID de VBO
 unsigned int VBO;   
- // Variable con ID de VAO           
-unsigned int VAO;   
+// Variable con ID de VAO           
+unsigned int VAO;
+// Variable con ID de EBO
+unsigned int EBO;
 
 // ==================== Funcion main() ====================
 

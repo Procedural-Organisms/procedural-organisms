@@ -6,5 +6,6 @@ void buffer_configuration();
 extern unsigned int shaderProgram;
 extern unsigned int VBO;
 extern unsigned int VAO;
+extern unsigned int EBO;
 
 #endif
