@@ -2,7 +2,14 @@
 
 # matar todos los procesos y
 # eliminar archivos con ctrl + c
-trap 'echo "Cleaning up..."; kill 0; rm -f audio.wav output.mp4 audio_ready.flag video_started.flag; exit' SIGINT
+# liberacion de recursos y eliminacion de archivos temporales
+cleanup() {
+    echo "Cleaning up..."
+    rm -f "$audio_pipe" "$video_pipe"
+    rm -f "$audio_ready" "$ffmpeg_started" "$video_started"
+    kill 0 2>/dev/null
+}
+trap cleanup EXIT SIGINT
 
 # localizacion de pipes
 pipes_dir="temp/pipes"
@@ -45,16 +52,12 @@ mkfifo "$video_pipe"
 # Iniciar servidor JACK solo en Linux
 if [[ "$OSTYPE" != "darwin"* ]]; then
     jackd -d dummy -r 44100 -p 512 &
-    JACK_PID=$!
     sleep 2
-else
-    JACK_PID=""
 fi
 
 # inciciar script superCollider
 # que inicia servidor y espera a que comience la generacion de video
 sclang "$audio_generator" &
-AUDIO_GENERATOR_PID=$!
 
 while [ ! -f "$audio_ready" ]; do
     sleep 0.1
@@ -63,15 +66,8 @@ done
 # abrir generador de video en el background
 # que espera a que ffmpeg comience para generar video
 "$video_generator" > "$video_pipe" &
-VIDEO_GENERATOR_PID=$!
 
-# esperar en el background a que se abra ffmpeg y crear flag
-{
-while ! lsof "$video_pipe" | grep -q ffmpeg; do
-    sleep 0.1
-done
 touch "$ffmpeg_started"
-} &
 
 # generacion de video y conversion de vfr a cfr
 ffmpeg \
@@ -79,15 +75,3 @@ ffmpeg \
 -thread_queue_size 512 -f s16le -ar 44100 -ac 2 -i "$audio_pipe" \
 -vf "vflip" \
 -r 30 -f flv -c:v libx264 -pix_fmt yuv420p -b:v 400k -c:a aac -ar 44100 -b:a 128k "$output"
-
-# liberacion de recursos y eliminacion de archivos temporales
-cleanup() {
-    echo "Cleaning up..."
-    kill $JACK_PID $AUDIO_GENERATOR_PID $VIDEO_GENERATOR_PID 2>/dev/null
-    wait $JACK_PID $AUDIO_GENERATOR_PID $VIDEO_GENERATOR_PID 2>/dev/null
-    rm -f "$audio_pipe" "$video_pipe"
-    rm -f "$audio_ready" "$ffmpeg_started" "$video_started"
-}
-
-trap cleanup EXIT SIGINT
-

@@ -31,7 +31,7 @@ void render_loop(){
         float timeValue = elapsed.count();
 
 
-        /* Generar funcion seno:
+        /* Generar funciones:
             generamos una funcion senoseudal usando el tiempo actual como variable y guardamos
             sus valores en la variable sinNormalizada. lugego con la funcion glGetUniformLocations
             localizamos todas las menciones de la uniforme sinGenerator en en shaderProgram y las
@@ -39,10 +39,19 @@ void render_loop(){
             luego que le decimos a OpenGL que utilice ese programa shaderProgram y que vicule 
             nuestra variable en el source sinNormalizada con las localizaciones en el shaderProgram
             donde se menciona sinGenerator */
-        float sinNormalizada = (std::sin(2 * M_PI * 0.083f * timeValue) / 2.0f) + 0.5f;
-        int sinesLocations = glGetUniformLocation(shaderProgram,"sinGenerator");
+        float normalizedSin1 = (std::sin(2 * M_PI * 0.083f * timeValue) / 2.0f) + 0.5f;
+        float normalizedSin2 = (std::sin(2 * M_PI * 0.079f * timeValue) / 2.0f) + 0.5f;
+        float normalizedRamp1 =  (1 / 0.291 - fmod(timeValue, 1 / 0.291)) / (1 / 0.291);
+        float normalizedRamp2 =  (1 / 0.267 - fmod(timeValue, 1 / 0.267)) / (1 / 0.267);
+        int sin1Locations = glGetUniformLocation(shaderProgram, "sinGenerator1");
+        int sin2Locations = glGetUniformLocation(shaderProgram, "sinGenerator2");
+        int ramp1Locations = glGetUniformLocation(shaderProgram, "rampGenerator1");
+        int ramp2Locations = glGetUniformLocation(shaderProgram, "rampGenerator2");
         glUseProgram(shaderProgram);
-        glUniform1f(sinesLocations, sinNormalizada);
+        glUniform1f(sin1Locations, normalizedSin1);
+        glUniform1f(sin2Locations, normalizedSin2);
+        glUniform1f(ramp1Locations, normalizedRamp1);
+        glUniform1f(ramp2Locations, normalizedRamp2);
 
 
         /* definir un color con el cual limpiar el color buffer y limpiarlo:
@@ -67,7 +76,7 @@ void render_loop(){
             Por ultima le decimos a OpenGL con glFlush que ejecute los comandos de dibujo */
         glBindVertexArray(VAO); 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-        glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         glFlush(); 
 
         

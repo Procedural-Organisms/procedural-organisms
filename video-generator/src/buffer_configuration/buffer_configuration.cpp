@@ -9,16 +9,18 @@ void buffer_configuration(){
     /* definicion de vertices: 
       guardamos en un array las coordenadas 3D de cada punto que queremos guardar */
      float vertices[] = {
-        -0.9f, -0.9f, 0.0f,
-        0.9f, -0.9f, 0.0f,
-        0.0f, 0.9f, 0.0f
+         -1, 1, 0,
+         -1, -1, 0,
+         1, 1, 0,
+         1, -1, 0,
      };
      
    
     /* difinicion de indices
       guardamos en un array la direcion de cada punto que queremos dibujar */
      unsigned int indices[] = {
-         0, 1, 2
+         0, 1, 3,
+         0, 2, 3,
      };
 
 
