@@ -16,4 +16,3 @@ void main(){
         FragColor = (1 - gradientGenerator2) * flashGenerator2 + gradientGenerator2;
     }
 }
-

@@ -46,8 +46,8 @@ s.waitForBoot{
                     SinOsc.ar(freq: 0.079, mul: 0.2, add: 0.1)
                 ],
                 mul: [
-                    SinOsc.ar(freq: 0.079, mul: 0.3, add: 0.05),
-                    SinOsc.ar(freq: 0.083, mul: 0.3, add: 0.05)
+                    SinOsc.ar(freq: 0.083, mul: 0.3, add: 0.05),
+                    SinOsc.ar(freq: 0.079, mul: 0.3, add: 0.05)
                 ]
             )
         }));
