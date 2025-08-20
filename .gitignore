@@ -26,6 +26,8 @@
 osmesa-env
 *.log
 *.flag
+*/__pycache__/
+.venv/
 
 # VSCode settings
 .vscode/

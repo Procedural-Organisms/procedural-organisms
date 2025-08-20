@@ -1,20 +1,66 @@
 Server.default.options.outDevice_("MacBook Pro Speakers")
+Server.default.options.outDevice_("External Headphones")
+
 s.boot
 
-(play({
-    PMOsc.ar(
-        carfreq: [89.0, 194.0],
-        modfreq: [356.0, 97.0],
-        pmindex: [
-            Saw.ar(freq: 0.291, mul: 1, add: 1),
-            Saw.ar(freq: 0.267, mul: 1, add: 2)
-        ],
-        mul: [
-            Saw.ar(freq: 0.291, mul: 0.002, add: 0.002),
-            Saw.ar(freq: 0.267, mul: 0.0007, add: 0.0007)
-        ]
+thisProcess.openUDPPort(11301);
+
+(
+SynthDef("perc", {
+    arg carfreq = 89.0, modfreq = 365.0, pan = 0;
+    var out, envelope = Env.perc(0.01, 0.2, 0.8, -10.0);
+    out = PMOsc.ar(
+        carfreq: carfreq,
+        modfreq: modfreq,
+        pmindex: EnvGen.kr(envelope),
+        mul: EnvGen.kr(envelope, doneAction: 2)
+    );
+    Out.ar(pan, out)
+}).add
+)
+
+(
+~lowPerc = OSCFunc({
+    arg msg;
+    if(msg[1] == 1,
+        Synth("perc", [
+            "carfreq", 194.0,
+            "modfreq", 97.0,
+            "pan", 1
+        ])
     )
-});
+}, '/hiPerc/trigger');
+)
+
+(
+~hiPerc = OSCFunc({
+    arg msg;
+    if(msg[1] == 1,
+        Synth("perc", [
+            "carfreq", 89.0,
+            "modfreq", 365.0,
+            "pan", 0
+        ])
+    )
+}, '/lowPerc/trigger')
+)
+
+
+~lowPerc.free;
+~hiPerc.free;
+
+
+
+
+
+
+
+
+
+
+
+
+
 play({
     PMOsc.ar(
         carfreq: [158.0, 332.0],
@@ -28,4 +74,4 @@ play({
             SinOsc.ar(freq: 0.083, mul: 0.3, add: 0.05)
         ]
     )
-}))
+})
