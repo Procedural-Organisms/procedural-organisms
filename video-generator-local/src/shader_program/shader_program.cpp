@@ -26,7 +26,7 @@ std::string loadShaderSource(const char* shaderPath){
     catch(std::ifstream::failure e){
     // Generacion de mensaje de error
     // OJO: Se tiene que usar cerr envez de cout porque cout corrompe el stream de datos por pipe
-        std::cerr << "ERROR:SHADER:FILE_NOT_SUCCESSFULLY_READ\n" 
+        std::cerr << "ERROR::SHADER::FILE_NOT_SUCCESSFULLY_READ\n" 
         << "Path: " << shaderPath << "\n"
         << "Error: " <<  e.what()<< std::endl;
         return "";
@@ -35,10 +35,14 @@ std::string loadShaderSource(const char* shaderPath){
     return shaderCode;
 }
 
-int shader_program(){ 
+int shader_program(){
+    #ifndef SRC_DIR
+    #define SRC_DIR
+    #endif
+
     // Read shader sources
-    std::string vertexCode = loadShaderSource("video-generator-local/shaders/basic.vert");
-    std::string fragmentCode = loadShaderSource("video-generator-local/shaders/basic.frag");
+    std::string vertexCode = loadShaderSource((std::string(SRC_DIR) + "/../shaders/basic.vert").c_str());
+    std::string fragmentCode = loadShaderSource((std::string(SRC_DIR) + "/../shaders/basic.frag").c_str());
     
     if (vertexCode.empty() || fragmentCode.empty()) {
         return -1;
