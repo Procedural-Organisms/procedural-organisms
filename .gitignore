@@ -10,7 +10,7 @@
 */libs/
 
 # Compiled binary output
-*/build/
+**/build/
 *.dSYM/
 *.dll
 */src/build/
