@@ -4,9 +4,9 @@ def print_handler(a):
     print(f'OSC message received: {a}')
 
 osc_startup()
-osc_udp_server('127.0.0.1', 11300, 'server')
+osc_udp_server('127.0.0.1', 11301, 'server')
 
-osc_method('/hello', print_handler)
+osc_method('/lowPerc/trigger', print_handler)
 
 finished = False
 while not finished:

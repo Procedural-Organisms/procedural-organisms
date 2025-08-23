@@ -6,18 +6,18 @@ import time_functions as tf
 from event_loop import *
 
 
-client.client_startup(port= 11301)
+client.client_startup(port= 11302)
 
 
 lowPercTrigger = tf.LoopedFunction(lambda:
                                 osc_send(oscbuildparse.OSCMessage(
-                                    '/lowPerc/trigger', None, [1.0]
+                                    '/lowPerc/trigger', ',i', [1]
                                     ),'client')
                                 )
 
 hiPercTrigger = tf.LoopedFunction(lambda:
                                osc_send(oscbuildparse.OSCMessage(
-                                   '/hiPerc/trigger', None, [1.0]
+                                   '/hiPerc/trigger', ',i', [1]
                                    ),'client')
                                )
 

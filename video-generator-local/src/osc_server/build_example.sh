@@ -7,7 +7,7 @@ clang++ -std=c++20 -fPIC \
     -I"$ROOT/includes" \
     $(pkg-config --cflags liblo) \
     $(pkg-config --libs liblo) \
-    "$ROOT/osc_server/osc_server.cpp" \
-    -o "$OUT/osc_server"
+    "$ROOT/osc_server/cpp_example.cpp" \
+    -o "$OUT/cpp_example"
 
-echo "Build: $OUT_DIR/osc_server"
+echo "Build: $OUT_DIR/cpp_example"

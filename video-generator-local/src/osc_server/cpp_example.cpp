@@ -48,7 +48,7 @@ int main()
      *       the desired behaviour, add `return 1' to your method
      *       handlers.
      */
-    st.add_method("example", "i",
+    st.add_method("/example", "i",
                   [&received](lo_arg **argv, int)
                   {std::cout << "example (" << (++received) << "): "
                              << argv[0]->i << std::endl;});
@@ -66,14 +66,14 @@ int main()
     /*
      * An individual message
      */
-    a.send("example", "i", 7890987);
+    a.send("/example", "i", 7890987);
 
     /*
      * Initalizer lists and message constructors are supported, so
      * that bundles can be created easily:
      */
-    a.send(lo::Bundle({{"example", lo::Message("i", 1234321)},
-                       {"example", lo::Message("i", 4321234)}}));
+    a.send(lo::Bundle({{"/example", lo::Message("i", 1234321)},
+                       {"/example", lo::Message("i", 4321234)}}));
 
     /*
      * Polymorphic overloads on lo::Message::add() mean you don't need
@@ -82,7 +82,7 @@ int main()
      */
     lo::Message m;
     m.add(7654321);
-    a.send("example", m);
+    a.send("/example", m);
 
     /*
      * Wait for messages to be received and processed.
