@@ -15,25 +15,29 @@ add_executable(video_generator
     ${GLAD_C}
 )
 
-find_package(OpenGL REQUIRED)
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(OSMESA REQUIRED osmesa)
-
 target_include_directories(video_generator PRIVATE
-    ${OSMESA_INCLUDE_DIRS}
     ${CMAKE_CURRENT_SOURCE_DIR}/../includes
-) 
-
-target_link_directories(video_generator PRIVATE
-    ${OSMESA_LIBRARY_DIRS}
 )
 
+if(APPLE)
+    set(OSMESA_LIB ${CMAKE_CURRENT_SOURCE_DIR}/../libs/libOSMesa.dylib)
+    set(LIBLO_LIB ${CMAKE_CURRENT_SOURCE_DIR}/../libs/liblo.dylib)
+    set(LIBGLAPI_LIB ${CMAKE_CURRENT_SOURCE_DIR}/../libs/libglapi.dylib)
+elseif(UNIX)
+    set(OSMESA_LIB ${CMAKE_CURRENT_SOURCE_DIR}/../libs/libOSMesa.so)
+    set(LIBLO_LIB ${CMAKE_CURRENT_SOURCE_DIR}/../libs/liblo.so)
+    set(LIBGLAPI_LIB ${CMAKE_CURRENT_SOURCE_DIR}/../libs/libglapi.so)
+endif()
+
 target_link_libraries(video_generator PRIVATE
-    ${OSMESA_LIBRARIES}
-    OpenGL::GL
-    "-framework Cocoa"
-    "-framework IOKit"
-    "-framework CoreVideo"
+    ${OSMESA_LIB}
+    ${LIBLO_LIB}
+    ${LIBGLAPI_LIB}
+)
+
+set_target_properties(video_generator PROPERTIES
+    BUILD_RPATH "${CMAKE_CURRENT_SOURCE_DIR}/../libs"
+    INSTALL_RPATH "${CMAKE_CURRENT_SOURCE_DIR}/../libs"
 )
 
 # creo una variable con la localizacion del source para pasarsela

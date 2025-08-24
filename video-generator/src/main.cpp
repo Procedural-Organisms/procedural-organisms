@@ -8,12 +8,14 @@
 #include <thread>               // le permite al programa dormir o pausar
 #include <chrono>               // utilidades de tiempo
 #include <cmath>                // funciones matematicas como sin()
+#include <atomic>               // variables atomicas (multithreading posible)
 
 #include "program_exit/program_exit.h"      // funcion para salir del render loop y finalizar programa
 #include "shader_program/shader_program.h"  // funcion para compilar shaders y crear shader program
 #include "buffer_configuration/buffer_configuration.h"    // configuracion de VBO y VAO
 #include "gl_context/gl_context.h"          // creacion de contexto OSMesa
 #include "render_loop/render_loop.h"        // render loop OpenGL
+#include "osc_server/osc_server.h"          // OSC server (recibir mensajes)
 
 // ==================== Declaracion de variables ====================
 
@@ -26,6 +28,10 @@ bool running = true;
     guarden en la variable startTime y seleccione automaticamente el tipo de valor
     al que lo tenga que guardar */
 std::chrono::steady_clock::time_point startTime = std::chrono::steady_clock::now();
+
+// Variables para OSC tigger
+std::atomic<int> msgSwitch1 = 0;
+std::atomic<int> msgSwitch2 = 0;
 
 // Dimensiones de imagen
 const int width = 400;
@@ -74,6 +80,11 @@ int main(){
     // ==================== Configuracion VBO & VAO ====================
 
     buffer_configuration();
+
+    
+    // ==================== Configuracion OSC ====================
+
+    osc_server();
 
     
     // ==================== Render loop ====================

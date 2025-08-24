@@ -18,18 +18,22 @@ add_executable(local_video_generator
 find_package(OpenGL REQUIRED)
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(GLFW3 REQUIRED glfw3)
+pkg_check_modules(LIBLO REQUIRED liblo)
 
 target_include_directories(local_video_generator PRIVATE
     ${GLFW3_INCLUDE_DIRS}
+    ${LIBLO_INCLUDE_DIRS}
     ${CMAKE_CURRENT_SOURCE_DIR}/../includes
 ) 
 
 target_link_directories(local_video_generator PRIVATE
     ${GLFW3_LIBRARY_DIRS}
+    ${LIBLO_LIBRARY_DIRS}
 )
 
 target_link_libraries(local_video_generator PRIVATE
     ${GLFW3_LIBRARIES}
+    ${LIBLO_LIBRARIES}
     OpenGL::GL
     "-framework Cocoa"
     "-framework IOKit"

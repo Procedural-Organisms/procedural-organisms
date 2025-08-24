@@ -1,27 +1,16 @@
 #include <iostream>
-#include <chrono>
-#include <thread>
-#include <csignal>
 #include <atomic>
 
 #include <lo/lo.h>
 #include <lo/lo_cpp.h>
 
-bool running = true;
-void handle_sigint(int){
-    running = false;
-}
+#include "osc_server.h"
 
-std::atomic<int> msgSwitch1 = 0;
-std::atomic<int> msgSwitch2 = 0;
-
-int main(){
-    // programm exit
-    std::signal(SIGINT, handle_sigint);
-
+int osc_server(){
 
     // crear osc server para reibir mensajes
-    lo::ServerThread oscServer(11302);
+    // hacerlo de tipo static para que continue cuando acabe la funcion
+    static lo::ServerThread oscServer(11302);
     if(!oscServer.is_valid()){
         std::cerr << "ERROR::OSC::SERVER_NOT_SUCCESSFULLY_STARTED" << std::endl;
         return -1;
@@ -61,23 +50,6 @@ int main(){
     oscServer.start();
 
 
-    // event loop, la handler function aparentemente no se tiene que llamar
-    while(running){
-        // la funcion exchange se activa cuando msgSwitch cambia a 1
-        // activando la funcion dentro de la condicional 
-        // y directamente cambiando el valor de msgSwitch de vuelta a 0
-        if(msgSwitch1.exchange(0, std::memory_order_relaxed)){
-            std::cerr << "Trigger 1" << std::endl;
-        }
-
-        if (msgSwitch2.exchange(0, std::memory_order_relaxed)){
-            std::cerr << "Trigger 2" << std::endl;
-        }
-        
-        std::this_thread::sleep_for(std::chrono::milliseconds(1));
-    }
-
-    
     // los recursos del servidor se liberan automaticamente
     return 0;
 }

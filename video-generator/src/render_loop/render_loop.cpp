@@ -6,6 +6,8 @@
 #include <fstream>              // creacion de flags
 #include <filesystem>           // lectura de flags
 
+#include "../osc_in_loop/osc_in_loop.h" // funciones con mensajes OSC
+
 #include "render_loop.h"
 
 void render_loop(){
@@ -14,12 +16,16 @@ void render_loop(){
     bool flag_exists = false;
 
     // esperar a que ffmpeg comience
-    while(!std::filesystem::exists("temp/flags/ffmpeg_started.flag")){
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    }
+    // while(!std::filesystem::exists("temp/flags/ffmpeg_started.flag")){
+    //     std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    // }
 
     // Creacion de render loop que termina cuando running = false (ctrl - c)
      while(running){
+
+        // funciones relacionadas con osc dentro del loop
+        osc_in_loop();
+
 
         /* Calcular tiempo desde que se inicio el programa:
             con cada repeticion de loop guardamos el tiempo actual en la variable now, a esa
@@ -88,15 +94,15 @@ void render_loop(){
         4 bytes por pixel que representan R*G*B*A.
         luego std::cout.flush(); transmite inmediatamente la data al output del programa sin esperar a
         que el buffer se llene por completo */
-        std::cout.write(reinterpret_cast<char*>(buffer.data()), width * height * 4);
-        std::cout.flush();
+        // std::cout.write(reinterpret_cast<char*>(buffer.data()), width * height * 4);
+        // std::cout.flush();
 
         // crear flag para iniciar transmicion de audio directamente despues del primer frame
-        if(!flag_exists){
-            std::ofstream flag("temp/flags/video_started.flag");
-            flag.close();
-            flag_exists = true;
-        }
+        // if(!flag_exists){
+        //     std::ofstream flag("temp/flags/video_started.flag");
+        //     flag.close();
+        //     flag_exists = true;
+        // }
         
         // esta funcion le dice al programa que pause por cierta cantidad de milisegundos
         // necesaria para detectar señales de la terminal como ctrl + c para terminar el programa

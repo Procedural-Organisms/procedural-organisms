@@ -5,11 +5,16 @@
 #include <chrono>               // utilidades de tiempo
 #include <cmath>                // funciones matematicas como sin()
 
+#include "../osc_in_loop/osc_in_loop.h"
+
 #include "render_loop.h"
 
 void render_loop(){
     // Render loop que termina cuando se cierra la ventana o se presiona ESC
     while (!glfwWindowShouldClose(window)) {
+        // funciones relacionadas con osc dentro del loop
+        osc_in_loop();
+        
         // Procesar input
         processInput(window);
 
