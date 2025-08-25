@@ -8,6 +8,7 @@ out vec4 flashGenerator2;
 out float xCoordinates;
 uniform float sinGenerator1;
 uniform float sinGenerator2;
+// TODO cambiar nombre de variables rampGenerator
 uniform float rampGenerator1;
 uniform float rampGenerator2;
 

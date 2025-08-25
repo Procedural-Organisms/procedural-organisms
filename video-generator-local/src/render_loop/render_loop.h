@@ -16,4 +16,7 @@ extern unsigned int EBO;
 extern const int width;
 extern const int height;
 
+extern float attRelGenerator1;
+extern float attRelGenerator2;
+
 #endif

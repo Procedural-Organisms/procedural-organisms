@@ -15,6 +15,7 @@ void render_loop(){
     // variable para avisarle al programa que la flag para iniciar audio no existe
     bool flag_exists = false;
 
+    // TODO regenerar creacion de flags
     // esperar a que ffmpeg comience
     // while(!std::filesystem::exists("temp/flags/ffmpeg_started.flag")){
     //     std::this_thread::sleep_for(std::chrono::milliseconds(100));
@@ -47,8 +48,6 @@ void render_loop(){
             donde se menciona sinGenerator */
         float normalizedSin1 = (std::sin(2 * M_PI * 0.083f * timeValue) / 2.0f) + 0.5f;
         float normalizedSin2 = (std::sin(2 * M_PI * 0.079f * timeValue) / 2.0f) + 0.5f;
-        float normalizedRamp1 =  (1 / 0.291 - fmod(timeValue, 1 / 0.291)) / (1 / 0.291);
-        float normalizedRamp2 =  (1 / 0.267 - fmod(timeValue, 1 / 0.267)) / (1 / 0.267);
         int sin1Locations = glGetUniformLocation(shaderProgram, "sinGenerator1");
         int sin2Locations = glGetUniformLocation(shaderProgram, "sinGenerator2");
         int ramp1Locations = glGetUniformLocation(shaderProgram, "rampGenerator1");
@@ -56,8 +55,8 @@ void render_loop(){
         glUseProgram(shaderProgram);
         glUniform1f(sin1Locations, normalizedSin1);
         glUniform1f(sin2Locations, normalizedSin2);
-        glUniform1f(ramp1Locations, normalizedRamp1);
-        glUniform1f(ramp2Locations, normalizedRamp2);
+        glUniform1f(ramp1Locations, attRelGenerator1);
+        glUniform1f(ramp2Locations, attRelGenerator2);
 
 
         /* definir un color con el cual limpiar el color buffer y limpiarlo:
@@ -85,7 +84,7 @@ void render_loop(){
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         glFlush(); 
 
-        
+        // TODO regenerar transmicion ffmpeg
         /* Transmitir datos a FFmpeg:
         con .write le decimos a std::cout que transmita datos binarios en vez de texo
         esta funcion necesita 2 parametros, la direccion de donde se encuentra la data la cual
@@ -97,6 +96,7 @@ void render_loop(){
         // std::cout.write(reinterpret_cast<char*>(buffer.data()), width * height * 4);
         // std::cout.flush();
 
+        // TODO regenerar creacion de flags
         // crear flag para iniciar transmicion de audio directamente despues del primer frame
         // if(!flag_exists){
         //     std::ofstream flag("temp/flags/video_started.flag");

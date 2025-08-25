@@ -26,18 +26,19 @@ void render_loop(){
         /* Generar funciones seno */
         float normalizedSin1 = (std::sin(2 * M_PI * 0.083f * timeValue) / 2.0f) + 0.5f;
         float normalizedSin2 = (std::sin(2 * M_PI * 0.079f * timeValue) / 2.0f) + 0.5f;
-        float normalizedRamp1 =  (1 / 0.291 - fmod(timeValue, 1 / 0.291)) / (1 / 0.291);
-        float normalizedRamp2 =  (1 / 0.267 - fmod(timeValue, 1 / 0.267)) / (1 / 0.267);
         int sin1Locations = glGetUniformLocation(shaderProgram, "sinGenerator1");
         int sin2Locations = glGetUniformLocation(shaderProgram, "sinGenerator2");
+        // TODO cambiar nombre de variables rampGenerator
         int ramp1Locations = glGetUniformLocation(shaderProgram, "rampGenerator1");
         int ramp2Locations = glGetUniformLocation(shaderProgram, "rampGenerator2");
         glUseProgram(shaderProgram);
         glUniform1f(sin1Locations, normalizedSin1);
         glUniform1f(sin2Locations, normalizedSin2);
-        glUniform1f(ramp1Locations, normalizedRamp1);
-        glUniform1f(ramp2Locations, normalizedRamp2);
+        glUniform1f(ramp1Locations, attRelGenerator1);
+        glUniform1f(ramp2Locations, attRelGenerator2);
 
+        // TODO  buscar como llamar a la funcion osc_in_loop con argumentos para obtener distintos valores
+        // u otra forma de pasar valores a funcion render_loop
 
         /* Limpiar color buffer */
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);

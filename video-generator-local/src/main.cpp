@@ -51,10 +51,10 @@ int main(){
     // Configurar buffers
     buffer_configuration();
 
-    // sevidor OSC en thread 1
+    // sevidor OSC
     osc_server();
 
-    // Render loop en thread 2
+    // Render loop
     render_loop();
 
 
