@@ -4,8 +4,8 @@
 
 #include "osc_in_loop.h"
 
-float attack = 0.3f;
-float release = 0.3f;
+float attack = 0.01f;
+float release = 0.2f;
 
 float rampTime1 = 0.0f;
 float attRelGenerator1 = 0.0f;

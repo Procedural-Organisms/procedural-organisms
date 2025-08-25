@@ -4,8 +4,8 @@
 
 #include "osc_in_loop.h"
 
-float attack = 0.3f;
-float release = 0.3f;
+float attack = 0.01f;
+float release = 0.2f;
 
 float rampTime1 = 0.0f;
 float attRelGenerator1 = 0.0f;
@@ -37,7 +37,7 @@ void osc_in_loop(){
         attPase1                                    == true
     ){ 
         if(msgSwitch1.load(std::memory_order_relaxed) == 1){
-            // TODO eliminar debug output
+
             std::cerr << "\n" << "Trigger 1" << std::endl;
 
             triggerTime1 = now;
@@ -64,7 +64,6 @@ void osc_in_loop(){
         if(rampTime1 / -release + 1.0f < 0.0f && attPase1 == false){
             attRelGenerator1 = 0.0f;
         }
-        // TODO eliminar debug output
         std::cerr << attRelGenerator1 << std::endl;
     }
 
@@ -76,7 +75,7 @@ void osc_in_loop(){
         attPase2                                    == true
     ){ 
         if(msgSwitch2.load(std::memory_order_relaxed) == 1){
-            // TODO eliminar debug output
+
             std::cerr << "\n" << "Trigger 2" << std::endl;
 
             triggerTime2 = now;
@@ -103,7 +102,6 @@ void osc_in_loop(){
         if(rampTime2 / -release + 1.0f < 0.0f && attPase2 == false){
             attRelGenerator2 = 0.0f;
         }
-        // TODO eliminar debug output
         std::cerr << attRelGenerator2 << std::endl;
     }
 }

@@ -10,7 +10,7 @@ int osc_server(){
 
     // crear osc server para reibir mensajes
     // hacerlo de tipo static para que continue cuando acabe la funcion
-    static lo::ServerThread oscServer(11302);
+    static lo::ServerThread oscServer(11303);
     if(!oscServer.is_valid()){
         std::cerr << "ERROR::OSC::SERVER_NOT_SUCCESSFULLY_STARTED" << std::endl;
         return -1;
@@ -29,7 +29,7 @@ int osc_server(){
 
 
     // crear handler functions
-    oscServer.add_method("/lowPerc/trigger", "i",
+    oscServer.add_method("/leftFlash/trigger", "i",
         [](lo_arg** argv, int){
             if(argv[0]->i == 1){
                 msgSwitch1.store(1, std::memory_order_relaxed);
@@ -37,7 +37,7 @@ int osc_server(){
         }
     );
 
-    oscServer.add_method("/hiPerc/trigger", "i",
+    oscServer.add_method("/rightFlash/trigger", "i",
         [](lo_arg** argv, int){
             if(argv[0]->i == 1){
                 msgSwitch2.store(1, std::memory_order_relaxed);
