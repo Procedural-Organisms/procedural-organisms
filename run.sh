@@ -21,7 +21,7 @@ audio_ready="temp/flags/audio_ready.flag"
 ffmpeg_started="temp/flags/ffmpeg_started.flag"
 video_started="temp/flags/video_started.flag"
 # localizacion de renderer
-video_generator="video-generator/build/main"
+video_generator="video-generator/build/video_generator"
 # lacalizacion de sintetizador
 audio_generator="audio-generator/script.scd"
 # localizacion de output

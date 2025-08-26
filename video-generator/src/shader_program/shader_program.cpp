@@ -42,7 +42,6 @@ int shader_program(){
    #endif
 
    // Lectura de shader sources y convercion a string
-   // TODO: Buscar como usar paths relativos
    std::string vertexCode = loadShaderSource((std::string(SRC_DIR) + "/../shaders/basic.vert").c_str());
    std::string fragmentCode = loadShaderSource((std::string(SRC_DIR) + "/../shaders/basic.frag").c_str());
    const char* vertexShaderSource = vertexCode.c_str();

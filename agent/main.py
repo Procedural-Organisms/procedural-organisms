@@ -8,6 +8,7 @@ from event_loop import *
 
 client.client_startup(port1= 11301, port2 = 11303)
 
+# TODO comenzar transmicion de osc hasta que se inicie el video
 
 lowPercTrigger = tf.LoopedFunction(
     lambda:
