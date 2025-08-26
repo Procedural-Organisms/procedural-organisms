@@ -13,6 +13,7 @@ thisProcess.openUDPPort(11301);
 ~video_started = "temp/flags/video_started.flag";
 ~audio_pipe = "temp/pipes/audio_pipe";
 
+
 SynthDef("perc", {
     arg carfreq = 89.0, modfreq = 365.0, pan = 0;
     var out, envelope = Env.perc(0.01, 0.2, 0.8, -10.0);
@@ -22,7 +23,7 @@ SynthDef("perc", {
         pmindex: EnvGen.kr(envelope),
         mul: EnvGen.kr(envelope, doneAction: 2)
     );
-    Out.ar(pan, out)
+    Out.ar(pan + 100, out)
 }).add;
 
 ~lowPerc = OSCFunc({
@@ -68,6 +69,9 @@ s.waitForBoot{
             "modfreq", 365.0,
             "pan", 0
         ]);
+
+        // correccion de latencia
+        {DelayN.ar(In.ar(100, 2), 5.0, 0.2)}.play();
 
         // transmitir a fifo
         s.record(path: ~audio_pipe, numChannels: 2);
