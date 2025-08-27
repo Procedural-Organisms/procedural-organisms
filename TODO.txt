@@ -1,1 +1,19 @@
-// TODO: comentar programa de python
+TODO: comentar programa de python
+
+TODO subir audio rate a 48000
+
+TODO subir resolucion de video
+
+TODO organizar git y hacer una branch main y otra de developement
+
+TODO mandar multiples parametros por osc
+
+FIXME interrupcion de transmicion
+    [vost#0:0/libx264 @ 0x60a928d83bc0] Error submitting a packet to the muxer: End of file8219 drop=0 speed=   1x                           00:00:59 [25/1933]
+    [flv @ 0x60a928d7d280] Failed to update header with correct duration.                                                                                              
+    [flv @ 0x60a928d7d280] Failed to update header with correct filesize.                                                                                              
+    [out#0/flv @ 0x60a928d4a200] Error writing trailer: End of file                                                                                                    
+    [out#0/flv @ 0x60a928d4a200] Error closing file: Broken pipe                                                                                                       
+    [out#0/flv @ 0x60a928d4a200] video:246576kB audio:11380kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: 2.542117%      
+
+FIXME tener que iniciar transmicion 2 veces para que aparezca video en youtube

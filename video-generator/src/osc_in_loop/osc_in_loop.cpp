@@ -37,9 +37,6 @@ void osc_in_loop(){
         attPase1                                    == true
     ){ 
         if(msgSwitch1.load(std::memory_order_relaxed) == 1){
-
-            std::cerr << "\n" << "Trigger 1" << std::endl;
-
             triggerTime1 = now;
             attRelGenerator1 = 0.0f;
             attPase1 = true;
@@ -64,7 +61,6 @@ void osc_in_loop(){
         if(rampTime1 / -release + 1.0f < 0.0f && attPase1 == false){
             attRelGenerator1 = 0.0f;
         }
-        std::cerr << attRelGenerator1 << std::endl;
     }
 
 
@@ -75,9 +71,6 @@ void osc_in_loop(){
         attPase2                                    == true
     ){ 
         if(msgSwitch2.load(std::memory_order_relaxed) == 1){
-
-            std::cerr << "\n" << "Trigger 2" << std::endl;
-
             triggerTime2 = now;
             attRelGenerator2 = 0.0f;
             attPase2 = true;
@@ -102,6 +95,5 @@ void osc_in_loop(){
         if(rampTime2 / -release + 1.0f < 0.0f && attPase2 == false){
             attRelGenerator2 = 0.0f;
         }
-        std::cerr << attRelGenerator2 << std::endl;
     }
 }

@@ -19,6 +19,7 @@ void main(){
         1.0f
         );
 
+    // IDEA elegir 2 frecuencias para azul y rojo y al verde hacerlo
     gradientGenerator1 = vec4(
         (-aPos.x * 0.5f + 0.5f) * (sinGenerator1 * 0.5f + 0.5f),
         (aPos.y * 0.4f + 0.1f) * sinGenerator1,
