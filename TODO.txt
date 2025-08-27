@@ -17,3 +17,51 @@ FIXME interrupcion de transmicion
     [out#0/flv @ 0x60a928d4a200] video:246576kB audio:11380kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: 2.542117%      
 
 FIXME tener que iniciar transmicion 2 veces para que aparezca video en youtube
+
+FIXME sincronizacion de audio y video
+    posibles soluciones:
+    [x] usar 48000khz
+    [ ] buscar como usar timestamps en audio
+    [ ] transmitir audio directo de tarjeta virtual
+    [ ] pasar audio a programa en c++ y video con audio a ffmpeg
+
+        -isync input_index (input)
+        Assign an input as a sync source.
+        This will take the difference between the start times of the target and reference inputs and offset the timestamps of the target
+        file by that difference. The source timestamps of the two inputs should derive from the same clock source for expected results.
+        If copyts is set then start_at_zero must also be set. If either of the inputs has no starting timestamp then no sync adjustment is made.
+        Acceptable values are those that refer to a valid ffmpeg input index. If the sync reference is the target index itself or -1, then no
+        adjustment is made to target timestamps. A sync reference may not itself be synced to any other input.
+        Default value is -1.
+
+        -debug_ts (global)
+        Print timestamp/latency information. It is off by default. This option is mostly useful for testing and debugging purposes, and the output
+        format may change from one version to another, so it should not be employed by portable scripts.
+        See also the option -fdebug ts.
+
+        -fps_mode[:stream_specifier] parameter (output,per-stream)
+        Set video sync method / framerate mode. vsync is applied to all output video streams but can be overridden for a stream by setting fps_mode.
+        vsync is deprecated and will be removed in the future.
+        For compatibility reasons some of the values for vsync can be specified as numbers (shown in parentheses in the following table).
+        passthrough (0)
+        Each frame is passed with its timestamp from the demuxer to the muxer.
+        cfr (1)
+        Frames will be duplicated and dropped to achieve exactly the requested constant frame rate.
+        vfr (2)
+        Frames are passed through with their timestamp or dropped so as to prevent 2 frames from having the same timestamp.
+        auto (-1)
+        Chooses between cfr and vfr depending on muxer capabilities. This is the default method.
+        Note that the timestamps may be further modified by the muxer, after this. For example, in the case that the format option avoid_negative_ts is enabled.
+        With -map you can select from which stream the timestamps should be taken. You can leave either video or audio unchanged and sync the remaining stream(s)
+        to the unchanged one.
+
+        -frame_drop_threshold parameter
+        Frame drop threshold, which specifies how much behind video frames can be before they are dropped. In frame rate units, so 1.0 is one frame. The default
+        is -1.1. One possible usecase is to avoid framedrops in case of noisy timestamps or to increase frame drop precision in case of exact timestamps.
+
+        -dts_error_threshold threshold
+        Timestamp error delta threshold, expressed as a decimal number of seconds.
+        The timestamp correction enabled by this option is only applied to input formats not accepting timestamp discontinuity (for which the AVFMT_TS_DISCONT flag
+        is not enabled).
+        If a timestamp discontinuity is detected whose absolute value is greater than threshold, ffmpeg will drop the PTS/DTS timestamp value.
+        The default value is 3600*30 (30 hours), which is arbitrarily picked and quite conservative.    

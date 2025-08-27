@@ -1,6 +1,6 @@
 s.options.hardwareBufferSize = 4096;
 s.options.blockSize = 512;
-s.options.sampleRate = 44100;
+s.options.sampleRate = 48000;
 s.options.recHeaderFormat = "raw";
 s.options.recSampleFormat = "int16";
 s.options.numOutputBusChannels = 2;
