@@ -21,11 +21,12 @@ FIXME tener que iniciar transmicion 2 veces para que aparezca video en youtube
 FIXME sincronizacion de audio y video
     posibles soluciones:
     [x] usar 48000khz
-    [ ] buscar como usar timestamps en audio
     [ ] transmitir audio directo de tarjeta virtual
-    [ ] pasar audio a programa en c++ y video con audio a ffmpeg
+    [ ] buscar como usar timestamps en audio
+    [ ] intentar reemplazar ffmpeg con obs
+    [ ] pasar audio a programa en c++ y video con audio a ffmpeg u obs
 
-        -isync input_index (input)
+    -isync input_index (input)
         Assign an input as a sync source.
         This will take the difference between the start times of the target and reference inputs and offset the timestamps of the target
         file by that difference. The source timestamps of the two inputs should derive from the same clock source for expected results.
@@ -34,12 +35,12 @@ FIXME sincronizacion de audio y video
         adjustment is made to target timestamps. A sync reference may not itself be synced to any other input.
         Default value is -1.
 
-        -debug_ts (global)
+    -debug_ts (global)
         Print timestamp/latency information. It is off by default. This option is mostly useful for testing and debugging purposes, and the output
         format may change from one version to another, so it should not be employed by portable scripts.
         See also the option -fdebug ts.
 
-        -fps_mode[:stream_specifier] parameter (output,per-stream)
+    -fps_mode[:stream_specifier] parameter (output,per-stream)
         Set video sync method / framerate mode. vsync is applied to all output video streams but can be overridden for a stream by setting fps_mode.
         vsync is deprecated and will be removed in the future.
         For compatibility reasons some of the values for vsync can be specified as numbers (shown in parentheses in the following table).
@@ -55,11 +56,11 @@ FIXME sincronizacion de audio y video
         With -map you can select from which stream the timestamps should be taken. You can leave either video or audio unchanged and sync the remaining stream(s)
         to the unchanged one.
 
-        -frame_drop_threshold parameter
+    -frame_drop_threshold parameter
         Frame drop threshold, which specifies how much behind video frames can be before they are dropped. In frame rate units, so 1.0 is one frame. The default
         is -1.1. One possible usecase is to avoid framedrops in case of noisy timestamps or to increase frame drop precision in case of exact timestamps.
 
-        -dts_error_threshold threshold
+    -dts_error_threshold threshold
         Timestamp error delta threshold, expressed as a decimal number of seconds.
         The timestamp correction enabled by this option is only applied to input formats not accepting timestamp discontinuity (for which the AVFMT_TS_DISCONT flag
         is not enabled).
