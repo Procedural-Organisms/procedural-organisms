@@ -1,5 +1,6 @@
 Server.default.options.outDevice_("MacBook Pro Speakers")
 Server.default.options.outDevice_("External Headphones")
+Server.default.options.outDevice_("BlackHole 2ch")
 
 s.boot
 
@@ -51,8 +52,13 @@ SynthDef("perc", {
 
 
 
-
-
+(
+Synth("perc", [
+            "carfreq", 194.0,
+            "modfreq", 97.0,
+            "pan", 1
+        ])
+)
 
 
 

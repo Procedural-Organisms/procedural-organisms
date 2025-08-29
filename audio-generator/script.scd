@@ -1,10 +1,4 @@
-s.options.hardwareBufferSize = 4096;
-s.options.blockSize = 512;
-s.options.sampleRate = 48000;
-s.options.recHeaderFormat = "raw";
-s.options.recSampleFormat = "int16";
-s.options.numOutputBusChannels = 2;
-s.options.numInputBusChannels = 0;
+Server.default.options.outDevice_("BlackHole 2ch");
 s.boot;
 
 thisProcess.openUDPPort(11301);
@@ -16,7 +10,7 @@ thisProcess.openUDPPort(11301);
 
 SynthDef("perc", {
     arg carfreq = 89.0, modfreq = 365.0, pan = 0;
-    var out, envelope = Env.perc(0.01, 0.2, 0.8, -10.0);
+    var out, envelope = Env.perc(0.01, 0.2, 0.3, -10.0);
     out = PMOsc.ar(
         carfreq: carfreq,
         modfreq: modfreq,
@@ -71,10 +65,7 @@ s.waitForBoot{
         ]);
 
         // correccion de latencia
-        {DelayN.ar(In.ar(100, 2), 5.0, 0.2)}.play();
-
-        // transmitir a fifo
-        s.record(path: ~audio_pipe, numChannels: 2);
+        {DelayN.ar(In.ar(100, 2), 5.0, 0.0)}.play();
 
     }.play;
 };

@@ -1,10 +1,4 @@
-TODO: comentar programa de python
-
-TODO subir audio rate a 48000
-
 TODO subir resolucion de video
-
-TODO organizar git y hacer una branch main y otra de developement
 
 TODO mandar multiples parametros por osc
 
