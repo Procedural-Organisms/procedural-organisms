@@ -3,7 +3,8 @@ s.options.blockSize = 512;
 s.options.sampleRate = 48000;
 s.options.recHeaderFormat = "raw";
 s.options.recSampleFormat = "int16";
-s.options.numOutputBusChannels = 0;
+// TODO hacer canales de salida 0
+s.options.numOutputBusChannels = 2;
 s.options.numInputBusChannels = 0;
 s.boot;
 
@@ -26,7 +27,7 @@ SynthDef("perc", {
     Out.ar(pan + 100, out)
 }).add;
 
-~lowPerc = OSCFunc({
+~hiPerc = OSCFunc({
     arg msg;
     if(msg[1] == 1,
         Synth("perc", [
@@ -35,9 +36,9 @@ SynthDef("perc", {
             "pan", 1
         ])
     )
-}, '/hiPerc/trigger');
+}, '/hiPerc');
 
-~hiPerc = OSCFunc({
+~lowPerc = OSCFunc({
     arg msg;
     if(msg[1] == 1,
         Synth("perc", [
@@ -46,7 +47,7 @@ SynthDef("perc", {
             "pan", 0
         ])
     )
-}, '/lowPerc/trigger');
+}, '/lowPerc');
 
 s.waitForBoot{
     // crear flag de inicializacion de servidor
@@ -55,9 +56,10 @@ s.waitForBoot{
 
     // esperar a flag de inicializacion de video
     Routine{
-        var flagPath = ~video_started;
-        while {File.exists(flagPath).not}{0.1.wait};
-        "Video started, starting audio and transmition.".postln;
+        // TODO reactivar deteccion de flag
+        // var flagPath = ~video_started;
+        // while {File.exists(flagPath).not}{0.1.wait};
+        // "Video started, starting audio and transmition.".postln;
         
         Synth("perc", [
             "carfreq", 194.0,
@@ -74,7 +76,8 @@ s.waitForBoot{
         {DelayN.ar(In.ar(100, 2), 5.0, 0.2)}.play();
 
         // transmitir a fifo
-        s.record(path: ~audio_pipe, numChannels: 2);
+        // TODO reactivar grabacion a fifo
+        // s.record(path: ~audio_pipe, numChannels: 2);
 
     }.play;
 };

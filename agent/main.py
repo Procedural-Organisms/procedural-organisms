@@ -17,14 +17,14 @@ client.client_startup(port1= 11301, port2 = 11303)
 lowPercTrigger = tf.LoopedFunction(
     lambda:
     osc_send(oscbuildparse.OSCMessage(
-        '/lowPerc/trigger', ',i', [1]
+        '/lowPerc', ',i', [1]
     ),'scClient')
 )
 
 hiPercTrigger = tf.LoopedFunction(
     lambda:
     osc_send(oscbuildparse.OSCMessage(
-        '/hiPerc/trigger', ',i', [1]
+        '/hiPerc', ',i', [1]
     ),'scClient')
 )
 
