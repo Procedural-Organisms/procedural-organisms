@@ -1,0 +1,8 @@
+#!/bin/bash
+
+ffmpeg \
+-thread_queue_size 512 -f avfoundation -i ":BlackHole 2ch" \
+-ar 48000 \
+test-output/test.wav
+
+# ffmpeg -f avfoundation -list_devices true -i ":"
