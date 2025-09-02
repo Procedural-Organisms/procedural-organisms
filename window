@@ -1,0 +1,3 @@
+#!/bin/bash
+
+ffplay rtmp://localhost:13093/test
