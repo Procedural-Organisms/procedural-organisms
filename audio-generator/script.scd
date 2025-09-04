@@ -16,8 +16,10 @@ thisProcess.openUDPPort(11301);
 
 
 SynthDef("perc", {
-    arg carfreq = 89.0, modfreq = 365.0, pan = 0;
-    var out, envelope = Env.perc(0.01, 0.2, 0.8, -10.0);
+    | carfreq = 89.0, modfreq = 365.0, pan = 0,
+    attack = 0.01, release = 0.2, curve = -10.0 |
+
+    var out, envelope = Env.perc(attack, release, 0.8, curve);
     out = PMOsc.ar(
         carfreq: carfreq,
         modfreq: modfreq,
@@ -32,11 +34,17 @@ SynthDef("perc", {
 
     var carfreqOSC = msg[2];
     var modfreqOSC = msg[3];
+    var attackOSC  = msg[4];
+    var releaseOSC = msg[5];
+    var curveOSC   = msg[6];
 
     if(msg[1] == 1,
         Synth("perc", [
             "carfreq", carfreqOSC,
             "modfreq", modfreqOSC,
+            "attack", attackOSC,
+            "release", releaseOSC,
+            "curve", curveOSC,
             "pan", 0
         ])
     )
@@ -47,11 +55,17 @@ SynthDef("perc", {
 
     var carfreqOSC = msg[2];
     var modfreqOSC = msg[3];
+    var attackOSC  = msg[4];
+    var releaseOSC = msg[5];
+    var curveOSC   = msg[6];
 
     if(msg[1] == 1,
         Synth("perc", [
             "carfreq", carfreqOSC,
             "modfreq", modfreqOSC,
+            "attack", attackOSC,
+            "release", releaseOSC,
+            "curve", curveOSC,
             "pan", 1
         ])
     )

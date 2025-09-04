@@ -45,10 +45,10 @@ try:
     # para ejecutar en el event loop
     event_loop(
         # metodos para repetir argumentos dentro de objetos Looped_Function
-        lambda: rightPercLooped.loop_function(0.07/0.291),
-        lambda: leftPercLooped.loop_function(0.07/0.267),
-        lambda: leftFlashTrigger.loop_function(0.07/0.291),
-        lambda: rightFlashTrigger.loop_function(0.07/0.267)
+        lambda: rightPercLooped.loop_function(tf.period1),
+        lambda: leftPercLooped.loop_function(tf.period2),
+        lambda: leftFlashTrigger.loop_function(tf.period1),
+        lambda: rightFlashTrigger.loop_function(tf.period2)
     )
 # TODO limpiar recursos con cualquier tipo de salida del programa
 # limpiar recursos con ctrl + c    

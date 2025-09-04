@@ -1,5 +1,8 @@
 import time # importar funciones de tiempo
 
+period1 = 1/0.291
+period2 = 1/0.267
+
 # clase con metodo que repite funcion cada cierta cantidad de tiempo si esta se encuentra dentro de un loop
 class LoopedFunction:
     def __init__(self, functionToLoop):
