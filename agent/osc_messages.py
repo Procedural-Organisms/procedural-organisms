@@ -5,7 +5,7 @@ from osc4py3.as_eventloop import *  # mandar mensajes osc
 import normalizer as norm
 import time_functions as tf
 
-parametersVector = [None] * 12
+parametersVector = [None] * 18
 
 # TODO crear clase que tome como argumentos:
 # index, numero de parametros, funcion de cada parametro (cuyo resultado se guardaria
@@ -13,6 +13,7 @@ parametersVector = [None] * 12
 
 # definir funciones que manden mensajes osc
 def sendRightPerc():
+    # TODO agregar tiempo en clock como primer parametro de vector
     parametersVector[0] = 1
     parametersVector[1] = random()
     parametersVector[2] = random()
@@ -21,10 +22,10 @@ def sendRightPerc():
     parametersVector[5] = random()
 
     trigger = parametersVector[0]
-    rightPercCarfreq = norm.geo_minmax(parametersVector[1], 100.0, 5000.0)
-    rightPercModfreq = norm.geo_minmax(parametersVector[2], 100.0, 5000.0)
-    rightPercAttack = norm.minmax(parametersVector[3], 0.05, tf.period1)
+    rightPercCarfreq = norm.geo_minmax(parametersVector[1], 50.0, 1000.0)
+    rightPercModfreq = norm.geo_minmax(parametersVector[2], 50.0, 1000.0)
     rightPercRelease = norm.minmax(parametersVector[4], 0.05, tf.period1)
+    rightPercAttack = norm.minmax(parametersVector[3], 0.05, tf.period1 - rightPercRelease)
     rightPercCurve = norm.minmax(parametersVector[5], 0.05, tf.period1)
 
     osc_send(oscbuildparse.OSCMessage(
@@ -49,10 +50,10 @@ def sendLeftPerc():
     parametersVector[11] = random()
 
     trigger = parametersVector[6]
-    leftPercCarfreq = norm.geo_minmax(parametersVector[7], 100.0, 5000.0)
-    leftPercModfreq = norm.geo_minmax(parametersVector[8], 100.0, 5000.0)
-    leftPercAttack = norm.minmax(parametersVector[9], 0.05, tf.period2)
+    leftPercCarfreq = norm.geo_minmax(parametersVector[7], 50.0, 1000.0)
+    leftPercModfreq = norm.geo_minmax(parametersVector[8], 50.0, 1000.0)
     leftPercRelease = norm.minmax(parametersVector[10], 0.05, tf.period2)
+    leftPercAttack = norm.minmax(parametersVector[9], 0.05, tf.period2 - leftPercRelease)
     leftPercCurve = norm.minmax(parametersVector[11], 0.05, tf.period2)
 
     osc_send(oscbuildparse.OSCMessage(
@@ -66,3 +67,42 @@ def sendLeftPerc():
             leftPercCurve
         ]  
     ),'scClient')
+
+
+def sendRightFlash():
+    parametersVector[12] = 1
+    parametersVector[13] = parametersVector[3]
+    parametersVector[14] = parametersVector[4]
+
+    trigger = parametersVector[12]
+    rightFlashRelease = norm.minmax(parametersVector[14], 0.05, tf.period1)
+    rightFlashAttack = norm.minmax(parametersVector[13], 0.05, tf.period1 - rightFlashRelease)
+
+    osc_send(oscbuildparse.OSCMessage(
+        '/rightFlash', ',iff',
+        [
+            trigger,
+            rightFlashAttack,
+            rightFlashRelease,
+        ]   
+    ),'oglClient')
+
+
+def sendLeftFlash():
+    parametersVector[15] = 1
+    parametersVector[16] = parametersVector[9]
+    parametersVector[17] = parametersVector[10]
+
+    trigger = parametersVector[15]
+    leftFlashRelease = norm.minmax(parametersVector[17], 0.05, tf.period2)
+    leftFlashAttack = norm.minmax(parametersVector[16], 0.05, tf.period2 - leftFlashRelease)
+
+    osc_send(oscbuildparse.OSCMessage(
+        '/leftFlash', ',iff',
+        [
+            trigger,
+            leftFlashAttack,
+            leftFlashRelease,
+        ]   
+    ),'oglClient')
+

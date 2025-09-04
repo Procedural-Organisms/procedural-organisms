@@ -29,16 +29,23 @@ int osc_server(){
 
 
     // crear handler functions
-    oscServer.add_method("/leftFlash/trigger", "i",
+    // TODO quitar trigger de direccion
+    oscServer.add_method("/rightFlash", "iff",
         [](lo_arg** argv, int){
+            attack1.store(argv[1]->f, std::memory_order_relaxed);
+            release1.store(argv[2]->f, std::memory_order_relaxed);
             if(argv[0]->i == 1){
                 msgSwitch1.store(1, std::memory_order_relaxed);
             }
+        
         }
     );
 
-    oscServer.add_method("/rightFlash/trigger", "i",
+    // TODO quitar trigger de direccion
+    oscServer.add_method("/leftFlash", "iff",
         [](lo_arg** argv, int){
+            attack2.store(argv[1]->f, std::memory_order_relaxed);
+            release2.store(argv[2]->f, std::memory_order_relaxed);
             if(argv[0]->i == 1){
                 msgSwitch2.store(1, std::memory_order_relaxed);
             }
