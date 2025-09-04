@@ -8,6 +8,8 @@ TODO organizar git y hacer una branch main y otra de developement
 
 TODO mandar multiples parametros por osc
 
+TODO correr realtimequickscan y seguir recomendaciones
+
 FIXME interrupcion de transmicion
     [vost#0:0/libx264 @ 0x60a928d83bc0] Error submitting a packet to the muxer: End of file8219 drop=0 speed=   1x                           00:00:59 [25/1933]
     [flv @ 0x60a928d7d280] Failed to update header with correct duration.                                                                                              

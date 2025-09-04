@@ -27,27 +27,35 @@ SynthDef("perc", {
     Out.ar(pan + 100, out)
 }).add;
 
-~hiPerc = OSCFunc({
+~leftPerc = OSCFunc({
     arg msg;
-    if(msg[1] == 1,
-        Synth("perc", [
-            "carfreq", 194.0,
-            "modfreq", 97.0,
-            "pan", 1
-        ])
-    )
-}, '/hiPerc');
 
-~lowPerc = OSCFunc({
-    arg msg;
+    var carfreqOSC = msg[2];
+    var modfreqOSC = msg[3];
+
     if(msg[1] == 1,
         Synth("perc", [
-            "carfreq", 89.0,
-            "modfreq", 365.0,
+            "carfreq", carfreqOSC,
+            "modfreq", modfreqOSC,
             "pan", 0
         ])
     )
-}, '/lowPerc');
+}, '/leftPerc');
+
+~rightPerc = OSCFunc({
+    arg msg;
+
+    var carfreqOSC = msg[2];
+    var modfreqOSC = msg[3];
+
+    if(msg[1] == 1,
+        Synth("perc", [
+            "carfreq", carfreqOSC,
+            "modfreq", modfreqOSC,
+            "pan", 1
+        ])
+    )
+}, '/rightPerc');
 
 s.waitForBoot{
     // crear flag de inicializacion de servidor

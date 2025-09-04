@@ -3,6 +3,7 @@ from osc4py3 import oscbuildparse   # crear mensajes en formato osc
 
 import client
 import time_functions as tf
+import osc_messages as oscm
 from event_loop import *
 
 # creo 2 clientes con distintos puertos
@@ -14,18 +15,12 @@ client.client_startup(port1= 11301, port2 = 11303)
 # crear objetos de clase LoopedFuntion
 # que toman una funcion a loopear como argumeto
 # e introduzco una funcion lamda que crea y manda mensajes osc
-lowPercTrigger = tf.LoopedFunction(
-    lambda:
-    osc_send(oscbuildparse.OSCMessage(
-        '/lowPerc', ',i', [1]
-    ),'scClient')
+rightPercLooped = tf.LoopedFunction(
+    lambda: oscm.sendRightPerc() 
 )
 
-hiPercTrigger = tf.LoopedFunction(
-    lambda:
-    osc_send(oscbuildparse.OSCMessage(
-        '/hiPerc', ',i', [1]
-    ),'scClient')
+leftPercLooped = tf.LoopedFunction(
+    lambda: oscm.sendLeftPerc()
 )
 
 leftFlashTrigger = tf.LoopedFunction(
@@ -50,10 +45,10 @@ try:
     # para ejecutar en el event loop
     event_loop(
         # metodos para repetir argumentos dentro de objetos Looped_Function
-        lambda: lowPercTrigger.loop_function(1.0/0.291),
-        lambda: hiPercTrigger.loop_function(1.0/0.267),
-        lambda: leftFlashTrigger.loop_function(1.0/0.291),
-        lambda: rightFlashTrigger.loop_function(1.0/0.267)
+        lambda: rightPercLooped.loop_function(0.07/0.291),
+        lambda: leftPercLooped.loop_function(0.07/0.267),
+        lambda: leftFlashTrigger.loop_function(0.07/0.291),
+        lambda: rightFlashTrigger.loop_function(0.07/0.267)
     )
 # TODO limpiar recursos con cualquier tipo de salida del programa
 # limpiar recursos con ctrl + c    

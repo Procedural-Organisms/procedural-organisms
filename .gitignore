@@ -44,3 +44,6 @@ Makefile
 # Others
 *.swp
 *.swo
+
+# temporal files
+/temp/
