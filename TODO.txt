@@ -10,6 +10,10 @@ TODO mandar multiples parametros por osc
 
 TODO correr realtimequickscan y seguir recomendaciones
 
+TODO mandar y recibir osc continuo de entre los 3 programas
+
+TODO mandar y recibir triggers osc entre los 3 programas
+
 FIXME interrupcion de transmicion
     [vost#0:0/libx264 @ 0x60a928d83bc0] Error submitting a packet to the muxer: End of file8219 drop=0 speed=   1x                           00:00:59 [25/1933]
     [flv @ 0x60a928d7d280] Failed to update header with correct duration.                                                                                              
