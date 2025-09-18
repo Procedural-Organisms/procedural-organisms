@@ -25,6 +25,10 @@ void osc_in_loop(){
 
     now = std::chrono::steady_clock::now();
     
+    // ===  TEST  ===  
+    std::cerr << test.load(std::memory_order_relaxed) << std::endl;
+    // == == == == ==
+
     // cuando msgSwitch cambia a 1 la funcion exchange se ejecuta
     // ejecutando la funcion dentro de la condicional
     // y cambiando inmediatamente el valor de msgSwitch de vuelta a 0

@@ -26,6 +26,16 @@ int osc_server(){
     );
     // imprimir URL del servidor UDP
     std::cerr << "OSC server URL: " << oscServer.url() << std::endl;
+    
+
+    // ===  TEST  ===
+    oscServer.add_method(
+        "/test", "f",
+        [](lo_arg** argv, int){
+            test.store(argv[0]->f, std::memory_order_relaxed);
+        }
+    );
+    // == == == == ==
 
 
     // crear handler functions

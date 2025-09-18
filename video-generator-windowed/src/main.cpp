@@ -18,12 +18,16 @@ bool running = true;
 std::chrono::steady_clock::time_point startTime = std::chrono::steady_clock::now();
 
 // Variables para OSC tigger
-std::atomic<int> msgSwitch1 = 0;
-std::atomic<float> attack1 = 0.01;
-std::atomic<float> release1 = 0.2;
-std::atomic<int> msgSwitch2 = 0;
-std::atomic<float> attack2 = 0.01;
-std::atomic<float> release2 = 0.2;
+std::atomic<int> msgSwitch1{0};
+std::atomic<float> attack1{0.01};
+std::atomic<float> release1{0.2};
+std::atomic<int> msgSwitch2{0};
+std::atomic<float> attack2{0.01};
+std::atomic<float> release2{0.2};
+
+// ===  TEST  ===
+std::atomic<float> test{0};
+// == == == == ==
 
 // Dimensiones de ventana
 const int width = 800;
