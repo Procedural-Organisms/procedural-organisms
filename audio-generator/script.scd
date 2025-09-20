@@ -8,7 +8,7 @@ s.options.numOutputBusChannels = 2;
 s.options.numInputBusChannels = 0;
 s.boot;
 
-thisProcess.openUDPPort(11301);
+thisProcess.openUDPPort(57120);
 
 ~audio_ready = "temp/flags/audio_ready.flag";
 ~video_started = "temp/flags/video_started.flag";

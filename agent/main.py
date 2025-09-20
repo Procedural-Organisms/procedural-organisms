@@ -8,7 +8,7 @@ from event_loop import *
 
 # creo 2 clientes con distintos puertos
 # para transmitir a video-generator y audio-generator
-client.client_startup(port1= 11301, port2 = 11303)
+client.client_startup(port1= 57120)
 
 # TODO comenzar transmicion de osc hasta que se inicie el video
 
@@ -32,6 +32,13 @@ rightFlashTrigger = tf.LoopedFunction(
     lambda: oscm.sendLeftFlash()
 )
 
+# ===  TEST  ===
+tester = tf.LoopedFunction(
+    lambda: oscm.test()
+)
+# == == == == ==
+
+
 
 # crear una forma de limpiar recursos con ctrl + c 
 try:
@@ -43,7 +50,11 @@ try:
         lambda: rightPercLooped.loop_function(tf.period1),
         lambda: leftPercLooped.loop_function(tf.period2),
         lambda: rightFlashTrigger.loop_function(tf.period1),
-        lambda: leftFlashTrigger.loop_function(tf.period2)
+        lambda: leftFlashTrigger.loop_function(tf.period2),
+
+        # ===  TEST  ===
+        lambda: tester.loop_function(tf.period1),
+        # == == == == ==
     )
 # TODO limpiar recursos con cualquier tipo de salida del programa
 # limpiar recursos con ctrl + c    

@@ -87,6 +87,12 @@ def sendRightFlash():
         ]   
     ),'oglClient')
 
+# ===  TEST  ===
+def test():
+    osc_send(oscbuildparse.OSCMessage(
+        '/test', ',i',[1]   
+    ),'scClient')
+# == == == == ==
 
 def sendLeftFlash():
     parametersVector[15] = 1

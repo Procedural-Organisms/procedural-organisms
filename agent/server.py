@@ -6,11 +6,11 @@ def print_handler(a):
 
 # inicializacion osc server
 osc_startup()
-osc_udp_server('127.0.0.1', 11301, 'server')
+osc_udp_server('127.0.0.1', 57120, 'server')
 
 # funcion que llama a la handler function cuando se recibe un mensaje
 # en la direccion determinada
-osc_method('/lowPerc/trigger', print_handler)
+osc_method('/leftPerc', print_handler)
 
 # event loop donde se llama la funcion que detecta recepcion de mensajes
 finished = False

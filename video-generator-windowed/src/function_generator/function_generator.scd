@@ -4,7 +4,8 @@ s.boot
 // al servidos osc en el programa de OpenGL
 // no me permite usar el nombre ~client
 // TODO ver si me permite usar otro nombre que no sea ~host
-~host = NetAddr("localhost", 11303)
+~receiver = NetAddr("localhost", NetAddr.langPort)
+~transmiter = NetAddr("localhost", 11303)
 
 // definicion de synth que al ser llamado dispara un envelope
 (Ndef(
@@ -37,7 +38,7 @@ s.boot
             // guardar valores generados por envelope en variable
             // y mandarlos por osc
             var envelope = Ndef(\envelope).bus.getSynchronous;
-            ~host.sendMsg("/test", envelope);
+            ~transmiter.sendMsg("/test", envelope);
             // limitar loop al doble de la velocidad que planeo
             // transmitir video
             (1/60).wait;
@@ -59,12 +60,12 @@ s.boot
 }.play)
 
 
-// (~osc = OSCFunc(
-//     {
-//         |msg|
-//         if(
-//             msg[1]!=0,
-//             {msg[1].postln;}
-//         )
-//     },"/test", ~host
-// ))
+(~osc = OSCFunc(
+    {
+        |msg|
+        if(
+            msg[1]!=0,
+            {msg[1].postln;}
+        )
+    },"/test", ~receiver
+))
