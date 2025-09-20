@@ -10,7 +10,7 @@ int osc_server(){
 
     // crear osc server para reibir mensajes
     // hacerlo de tipo static para que continue cuando acabe la funcion
-    static lo::ServerThread oscServer(11303);
+    static lo::ServerThread oscServer(13939);
     if(!oscServer.is_valid()){
         std::cerr << "ERROR::OSC::SERVER_NOT_SUCCESSFULLY_STARTED" << std::endl;
         return -1;
