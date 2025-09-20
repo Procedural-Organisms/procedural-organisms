@@ -12,9 +12,6 @@
 void render_loop(){
     // Render loop que termina cuando se cierra la ventana o se presiona ESC
     while (!glfwWindowShouldClose(window)) {
-        // funciones relacionadas con osc dentro del loop
-        osc_in_loop();
-        
         // Procesar input
         processInput(window);
 
@@ -31,6 +28,13 @@ void render_loop(){
         // TODO cambiar nombre de variables rampGenerator
         int ramp1Locations = glGetUniformLocation(shaderProgram, "rampGenerator1");
         int ramp2Locations = glGetUniformLocation(shaderProgram, "rampGenerator2");
+
+        // ===  TEST  === 
+        std::atomic<float> test = osc_in_loop();
+        float testLocations = glGetUniformLocation(shaderProgram, "test");
+        glUniform1f(testLocations, test);
+        // == == == == == 
+
         glUseProgram(shaderProgram);
         glUniform1f(sin1Locations, normalizedSin1);
         glUniform1f(sin2Locations, normalizedSin2);

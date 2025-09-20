@@ -22,11 +22,6 @@ void render_loop(){
 
     // Creacion de render loop que termina cuando running = false (ctrl - c)
      while(running){
-
-        // funciones relacionadas con osc dentro del loop
-        osc_in_loop();
-
-
         /* Calcular tiempo desde que se inicio el programa:
             con cada repeticion de loop guardamos el tiempo actual en la variable now, a esa
             variable le restamos el tiempo en el que iniciamos el programa y usando
@@ -56,6 +51,12 @@ void render_loop(){
         glUniform1f(sin2Locations, normalizedSin2);
         glUniform1f(ramp1Locations, attRelGenerator1);
         glUniform1f(ramp2Locations, attRelGenerator2);
+
+        // ===  TEST  === 
+        std::atomic<float> test = osc_in_loop();
+        float testLocations = glGetUniformLocation(shaderProgram, "test");
+        glUniform1f(testLocations, test);
+        // == == == == == 
 
 
         /* definir un color con el cual limpiar el color buffer y limpiarlo:

@@ -3,7 +3,7 @@
 
 #include <atomic>
 
-void osc_in_loop();
+std::atomic<float> osc_in_loop();
 
 extern std::atomic<int> msgSwitch1;
 extern std::atomic<int> msgSwitch2;

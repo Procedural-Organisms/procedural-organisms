@@ -20,14 +20,12 @@ std::chrono::duration<float> elapsed1 = now - triggerTime1;
 std::chrono::steady_clock::time_point triggerTime2 = now;
 std::chrono::duration<float> elapsed2 = now - triggerTime2;
 
-void osc_in_loop(){
+// TODO crear objeto osc_in_loop para poder llamar varias instancias
+// dentro de distintas funciones dentro del loop
+std::atomic<float> osc_in_loop(){
     // TODO crear clase AttackReleaseGenerator
 
     now = std::chrono::steady_clock::now();
-    
-    // ===  TEST  ===  
-    std::cerr << test.load(std::memory_order_relaxed) << std::endl;
-    // == == == == ==
 
     // cuando msgSwitch cambia a 1 la funcion exchange se ejecuta
     // ejecutando la funcion dentro de la condicional
@@ -97,4 +95,8 @@ void osc_in_loop(){
             attRelGenerator2 = 0.0f;
         }
     }
+
+    // ===  TEST  ===  
+    return test.load(std::memory_order_relaxed);
+    // == == == == ==
 }

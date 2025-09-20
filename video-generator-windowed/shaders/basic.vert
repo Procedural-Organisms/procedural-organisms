@@ -12,6 +12,10 @@ uniform float sinGenerator2;
 uniform float rampGenerator1;
 uniform float rampGenerator2;
 
+// ===  TEST  ===
+uniform float test;
+// == == == == ==
+
 void main(){
     gl_Position = vec4(
         aPos.x,
@@ -40,6 +44,15 @@ void main(){
         rampGenerator1 * 0.3f,
         1.0f
     );
+
+    // ===  TEST  ===
+    flashGenerator1 = vec4(
+        test * 0.3f,
+        test * 0.3f,
+        test * 0.3f,
+        1.0f
+    );
+    // == == == == ==
 
     flashGenerator2 = vec4(
         rampGenerator2 * 0.3f,

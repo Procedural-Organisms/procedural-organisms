@@ -8,8 +8,13 @@ out vec4 flashGenerator2;
 out float xCoordinates;
 uniform float sinGenerator1;
 uniform float sinGenerator2;
+// TODO cambiar nombre de variables rampGenerator
 uniform float rampGenerator1;
 uniform float rampGenerator2;
+
+// ===  TEST  ===
+uniform float test;
+// == == == == ==
 
 void main(){
     gl_Position = vec4(
@@ -19,7 +24,6 @@ void main(){
         1.0f
         );
 
-    // IDEA elegir 2 frecuencias para azul y rojo y al verde hacerlo
     gradientGenerator1 = vec4(
         (-aPos.x * 0.5f + 0.5f) * (sinGenerator1 * 0.5f + 0.5f),
         (aPos.y * 0.4f + 0.1f) * sinGenerator1,
@@ -40,6 +44,15 @@ void main(){
         rampGenerator1 * 0.3f,
         1.0f
     );
+
+    // ===  TEST  ===
+    flashGenerator1 = vec4(
+        test * 0.3f,
+        test * 0.3f,
+        test * 0.3f,
+        1.0f
+    );
+    // == == == == ==
 
     flashGenerator2 = vec4(
         rampGenerator2 * 0.3f,
