@@ -8,7 +8,7 @@ from event_loop import *
 
 # creo 2 clientes con distintos puertos
 # para transmitir a video-generator y audio-generator
-client.client_startup(port1= 57120)
+client.client_startup(port1= 13933)
 
 # TODO comenzar transmicion de osc hasta que se inicie el video
 

@@ -89,6 +89,7 @@ def sendRightFlash():
 
 # ===  TEST  ===
 def test():
+    print("test")
     osc_send(oscbuildparse.OSCMessage(
         '/test', ',i',[1]   
     ),'scClient')
