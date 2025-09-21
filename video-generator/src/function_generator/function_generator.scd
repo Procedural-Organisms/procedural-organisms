@@ -1,14 +1,11 @@
-s.boot
-
 // crear un hoste con el que mandamos los mensajes osc
 // al servidos osc en el programa de OpenGL
 // no me permite usar el nombre ~client
 // TODO ver si me permite usar otro nombre que no sea ~host
-thisProcess.openUDPPort(13933);
-~transmiter = NetAddr("localhost", 13939)
+~transmiter = NetAddr("localhost", 13939);
 
 // definicion de synth que al ser llamado dispara un envelope
-(Ndef(
+Ndef(
     // TODO ver si es posible usar un synthDef
     \envelope,
     {
@@ -27,11 +24,11 @@ thisProcess.openUDPPort(13933);
             trigger
         );
     }
-))
+);
 
 // crear event loop que evalua el bus que contiene los valores de
 // salida del envelope y los envia a travez de osc
-(Routine(
+Routine(
     {
         // loop infinito
         inf.do{
@@ -44,10 +41,10 @@ thisProcess.openUDPPort(13933);
             (1/60).wait;
         }
     }
-).play)
+).play;
 
 // disparar envelope
-(Routine{
+Routine{
     // usamos el mensaje .set porque supercollider no nos permite
     // usar .play, asi que mandamos un cambio al parametro gate de
     // 0 a 1 y de vuelta a 0 para disparar envelope
@@ -57,7 +54,7 @@ thisProcess.openUDPPort(13933);
     // de que el event loop registre todos los triggers
     (1/30).wait;
     Ndef(\envelope).set(\trigger, 0)
-}.play)
+}.play;
 
 
 (~osc = OSCFunc(

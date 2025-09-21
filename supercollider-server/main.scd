@@ -1,14 +1,6 @@
-s.options.hardwareBufferSize = 4096;
-s.options.blockSize = 512;
-s.options.sampleRate = 48000;
-s.options.recHeaderFormat = "raw";
-s.options.recSampleFormat = "int16";
-// TODO hacer canales de salida 0
-s.options.numOutputBusChannels = 2;
-s.options.numInputBusChannels = 0;
-s.boot;
-
-thisProcess.openUDPPort(11301);
+~audio_ready = "temp/flags/audio_ready.flag";
+~video_started = "temp/flags/video_started.flag";
+~audio_pipe = "temp/pipes/audio_pipe";
 
 ~mainPath       = PathName(thisProcess.nowExecutingPath).parentPath;
 ~projectPath    = PathName(~mainPath).parentPath;
@@ -18,8 +10,22 @@ thisProcess.openUDPPort(11301);
     "audio-generator/script.scd"
 ).loadPaths;
 
-(
-    ~projectPath ++
-    "video-generator-windowed/src/function_generator/function_generator.scd"
-).loadPaths;
+s.waitForBoot{
+    // crear flag de inicializacion de servidor
+    File(~audio_ready, "w").close;
 
+    "Audio server ready. Waiting for video.".postln;
+    ~receiver = NetAddr("localhost", 13933);    
+    if(
+        thisProcess.openUDPPort(13933) == true,
+        postln(
+            "SuperCollider OSC server ready!\nServer address: " ++
+            ~receiver.ip ++ ":" ++ ~receiver.port
+        )
+    );
+
+    (
+        ~projectPath ++
+        "video-generator-windowed/src/function_generator/function_generator.scd"
+    ).loadPaths;
+}
