@@ -1,15 +1,3 @@
-s.options.hardwareBufferSize = 4096;
-s.options.blockSize = 512;
-s.options.sampleRate = 48000;
-s.options.recHeaderFormat = "raw";
-s.options.recSampleFormat = "int16";
-// TODO hacer canales de salida 0
-s.options.numOutputBusChannels = 2;
-s.options.numInputBusChannels = 0;
-s.boot;
-
-thisProcess.openUDPPort(57120);
-
 ~audio_ready = "temp/flags/audio_ready.flag";
 ~video_started = "temp/flags/video_started.flag";
 ~audio_pipe = "temp/pipes/audio_pipe";
