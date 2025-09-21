@@ -14,6 +14,8 @@
 *.dSYM/
 *.dll
 
+# External cpp header files
+*/includes/
 
 # Media files
 *.png
