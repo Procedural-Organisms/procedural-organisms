@@ -88,11 +88,14 @@ def sendRightFlash():
     ),'oglClient')
 
 # ===  TEST  ===
-def test():
-    print("test")
+def testLeft():
     osc_send(oscbuildparse.OSCMessage(
-        '/test', ',i',[1]   
+        '/testLeft', ',i', [1]   
     ),'scClient')
+def testRight():
+    osc_send(oscbuildparse.OSCMessage(
+        '/testRight', ',i', [1]
+    ), 'scClient')
 # == == == == ==
 
 def sendLeftFlash():

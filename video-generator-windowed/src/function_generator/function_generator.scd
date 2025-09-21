@@ -44,31 +44,44 @@ SynthDef(
 s.waitForBoot{
     // crear event loop que evalua el bus que contiene los valores de
     // salida del envelope y los envia a travez de osc
-    var envelopeBus = Bus.control(s, 1);
-
+    var envelopeBusLeft = Bus.control(s, 1);
+    var envelopeBusRight = Bus.control(s, 1);
 
     (~osc = OSCFunc(
         {
             |msg|
             if(
                 msg[1] == 1,
-                Synth(\envelope,[\bus, envelopeBus])
+                Synth(\envelope, [\bus, envelopeBusLeft])
             );
-        },"/test",
+        },"/testLeft"
+    ));
+
+    (~osc = OSCFunc(
+        {
+            |msg|
+            if(
+                msg[1] == 1,
+                Synth(\envelope, [\bus, envelopeBusRight])
+            );
+        },"/testRight"
     ));
 
     Routine(
-        postln("debug");
         {
             // loop infinito
             inf.do{
                 // guardar valores generados por envelope en variable
                 // y mandarlos por osc
-                var envelope = envelopeBus.getSynchronous;
-                if(envelope > 0.0,
-                    {postln(envelope)}
+                var envelopeLeft = 0.0;
+                var envelopeRight = 0.0;
+                envelopeLeft = envelopeBusLeft.getSynchronous;
+                ~transmiter.sendMsg("/testLeft", envelopeLeft);
+                envelopeRight = envelopeBusRight.getSynchronous;
+                if(envelopeRight > 0.0,
+                    {postln(envelopeRight)}
                 );
-                ~transmiter.sendMsg("/test", envelope);
+                ~transmiter.sendMsg("/testRight", envelopeRight);
                 // limitar loop al doble de la velocidad que planeo
                 // transmitir video
                 (1/60).wait;

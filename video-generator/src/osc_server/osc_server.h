@@ -13,7 +13,8 @@ extern std::atomic<float> attack2;
 extern std::atomic<float> release2;
 
 // ===  TEST  ===
-extern std::atomic<float> test;
+extern std::atomic<float> testLeft;
+extern std::atomic<float> testRight;
 // == == == == ==
 
 #endif

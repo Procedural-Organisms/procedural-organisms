@@ -53,9 +53,12 @@ void render_loop(){
         glUniform1f(ramp2Locations, attRelGenerator2);
 
         // ===  TEST  === 
-        std::atomic<float> test = osc_in_loop();
-        float testLocations = glGetUniformLocation(shaderProgram, "test");
-        glUniform1f(testLocations, test);
+        std::atomic<float> testLeft = osc_in_loop(0);
+        float testLeftLocations = glGetUniformLocation(shaderProgram, "testLeft");
+        glUniform1f(testLeftLocations, testLeft);
+        std::atomic<float> testRight = osc_in_loop(1);
+        float testRightLocations = glGetUniformLocation(shaderProgram, "testRight");
+        glUniform1f(testRightLocations, testRight);
         // == == == == == 
 
 

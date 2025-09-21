@@ -13,7 +13,8 @@ uniform float rampGenerator1;
 uniform float rampGenerator2;
 
 // ===  TEST  ===
-uniform float test;
+uniform float testLeft;
+uniform float testRight;
 // == == == == ==
 
 void main(){
@@ -38,28 +39,21 @@ void main(){
         1.0f
     );
 
+    // ===  TEST  ===
     flashGenerator1 = vec4(
-        rampGenerator1 * 0.3f,
-        rampGenerator1 * 0.3f,
-        rampGenerator1 * 0.3f,
+        testLeft * 0.3f,
+        testLeft * 0.3f,
+        testLeft * 0.3f,
         1.0f
     );
 
-    // ===  TEST  ===
-    flashGenerator1 = vec4(
-        test * 0.3f,
-        test * 0.3f,
-        test * 0.3f,
+    flashGenerator2 = vec4(
+        testRight * 0.3f,
+        testRight * 0.3f,
+        testRight * 0.3f,
         1.0f
     );
     // == == == == ==
-
-    flashGenerator2 = vec4(
-        rampGenerator2 * 0.3f,
-        rampGenerator2 * 0.3f,
-        rampGenerator2 * 0.3f,
-        1.0f
-    );
 
     xCoordinates = aPos.x;
 }

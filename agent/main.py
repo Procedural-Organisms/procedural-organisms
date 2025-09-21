@@ -33,8 +33,11 @@ rightFlashTrigger = tf.LoopedFunction(
 )
 
 # ===  TEST  ===
-tester = tf.LoopedFunction(
-    lambda: oscm.test()
+testerLeft = tf.LoopedFunction(
+    lambda: oscm.testLeft()
+)
+testerRight = tf.LoopedFunction(
+    lambda: oscm.testRight()
 )
 # == == == == ==
 
@@ -53,7 +56,8 @@ try:
         lambda: leftFlashTrigger.loop_function(tf.period2),
 
         # ===  TEST  ===
-        lambda: tester.loop_function(tf.period1),
+        lambda: testerLeft.loop_function(tf.period1),
+        lambda: testerRight.loop_function(tf.period2),
         # == == == == ==
     )
 # TODO limpiar recursos con cualquier tipo de salida del programa

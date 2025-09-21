@@ -26,7 +26,8 @@ std::atomic<float> attack2{0.01};
 std::atomic<float> release2{0.2};
 
 // ===  TEST  ===
-std::atomic<float> test{0};
+std::atomic<float> testLeft{0};
+std::atomic<float> testRight{0};
 // == == == == ==
 
 // Dimensiones de ventana

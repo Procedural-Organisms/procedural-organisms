@@ -30,9 +30,16 @@ int osc_server(){
 
     // ===  TEST  ===
     oscServer.add_method(
-        "/test", "f",
+        "/testLeft", "f",
         [](lo_arg** argv, int){
-            test.store(argv[0]->f, std::memory_order_relaxed);
+            testLeft.store(argv[0]->f, std::memory_order_relaxed);
+        }
+    );
+
+    oscServer.add_method(
+        "/testRight", "f",
+        [](lo_arg** argv, int){
+            testRight.store(argv[0]->f, std::memory_order_relaxed);
         }
     );
     // == == == == ==
