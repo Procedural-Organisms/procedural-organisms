@@ -27,14 +27,14 @@ SynthDef(
         // normalmente se puede diparar el envelope sin cambiar 
         // el parametro "gate" de EnvGen pero en esta situacion
         // especifica se necesita mandar un cambio de parametro
-        |bus = 0|
+        |bus = 0, attackTime, releaseTime, curve|
         var out;
         out = EnvGen.kr(
             Env.perc(
-                attackTime: 0.1,
-                releaseTime: 0.5,
+                attackTime: attackTime,
+                releaseTime: releaseTime,
                 level: 1.0,
-                curve: -4.0
+                curve: curve
             ),
         );
         Out.kr(bus, out)
@@ -52,7 +52,15 @@ s.waitForBoot{
             |msg|
             if(
                 msg[1] == 1,
-                Synth(\envelope, [\bus, envelopeBusLeft])
+                Synth(
+                    \envelope, 
+                    [
+                        \bus,           envelopeBusLeft,
+                        \attackTime,    msg[4],
+                        \releaseTime,   msg[5],
+                        \curve,         msg[6]
+                    ]
+                )
             );
         },"/testLeft"
     ));
@@ -62,7 +70,15 @@ s.waitForBoot{
             |msg|
             if(
                 msg[1] == 1,
-                Synth(\envelope, [\bus, envelopeBusRight])
+                Synth(
+                    \envelope,
+                    [
+                        \bus,           envelopeBusRight,
+                        \attackTime,    msg[4],
+                        \releaseTime,   msg[5],
+                        \curve,         msg[6]
+                    ]
+                )
             );
         },"/testRight"
     ));
@@ -78,9 +94,6 @@ s.waitForBoot{
                 envelopeLeft = envelopeBusLeft.getSynchronous;
                 ~transmiter.sendMsg("/testLeft", envelopeLeft);
                 envelopeRight = envelopeBusRight.getSynchronous;
-                if(envelopeRight > 0.0,
-                    {postln(envelopeRight)}
-                );
                 ~transmiter.sendMsg("/testRight", envelopeRight);
                 // limitar loop al doble de la velocidad que planeo
                 // transmitir video
