@@ -1,8 +1,14 @@
 #version 330 core
 out vec4 FragColor;
 
+//= INPUTS ==
+// uniforms
+uniform float envelopeLeft;
+//=:=:=:=:=:=:=:=:=:=:=
+uniform float envelopeRight;
+
 void main(){
-    FragColor = vec4(0.95, 0.75, 0.65, 1.0);
+    FragColor = vec4(envelopeLeft * 0.95, envelopeRight * 0.75, 0.65, 1.0);
 }
 
 // in vec4 flashGenerator1;

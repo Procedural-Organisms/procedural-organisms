@@ -5,13 +5,6 @@
 
 std::atomic<float> osc_in_loop(int functionIndex);
 
-extern std::atomic<int> msgSwitch1;
-extern std::atomic<int> msgSwitch2;
-extern std::atomic<float> attack1;
-extern std::atomic<float> release1;
-extern std::atomic<float> attack2;
-extern std::atomic<float> release2;
-
 // ===  TEST  ===  
 extern std::atomic<float> testLeft;
 extern std::atomic<float> testRight;

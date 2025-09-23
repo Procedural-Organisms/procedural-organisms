@@ -20,44 +20,30 @@ void render_loop(){
         std::chrono::duration<float> elapsed = now - startTime;
         float timeValue = elapsed.count();
 
-        /* Generar funciones seno */
-        float normalizedSin1 = (std::sin(2 * M_PI * 0.083f * timeValue) / 2.0f) + 0.5f;
-        float normalizedSin2 = (std::sin(2 * M_PI * 0.079f * timeValue) / 2.0f) + 0.5f;
-        int sin1Locations = glGetUniformLocation(shaderProgram, "sinGenerator1");
-        int sin2Locations = glGetUniformLocation(shaderProgram, "sinGenerator2");
-        // TODO cambiar nombre de variables rampGenerator
-        int ramp1Locations = glGetUniformLocation(shaderProgram, "rampGenerator1");
-        int ramp2Locations = glGetUniformLocation(shaderProgram, "rampGenerator2");
-
+        /* Guardar mensajes continuos osc en variables atomicas y mandarlas
+            a las uniformes dentro de los shaders */
         // ===  TEST  === 
-        std::atomic<float> testLeft = osc_in_loop(0);
-        float testLeftLocations = glGetUniformLocation(shaderProgram, "testLeft");
+        testLeft.store(osc_in_loop(0), std::memory_order_relaxed);
+        float testLeftLocations = glGetUniformLocation(shaderProgram, "envelopeLeft");
 
-        std::atomic<float> testRight = osc_in_loop(1);
-        float testRightLocations = glGetUniformLocation(shaderProgram, "testRight");
+        testRight.store(osc_in_loop(1), std::memory_order_relaxed);
+        float testRightLocations = glGetUniformLocation(shaderProgram, "envelopeRight");
         if(testRight > 0){
             std::cerr << testRight << std::endl;
         }
-        // == == == == == 
 
         glUseProgram(shaderProgram);
+        
         // ===  TEST  === 
         glUniform1f(testLeftLocations, testLeft);
         glUniform1f(testRightLocations, testRight);
         // == == == == == 
-        glUniform1f(sin1Locations, normalizedSin1);
-        glUniform1f(sin2Locations, normalizedSin2);
-        glUniform1f(ramp1Locations, attRelGenerator1);
-        glUniform1f(ramp2Locations, attRelGenerator2);
-
-        // TODO  buscar como llamar a la funcion osc_in_loop con argumentos para obtener distintos valores
-        // u otra forma de pasar valores a funcion render_loop
 
         /* Limpiar color buffer */
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         
-        /* Dibujar triangulo */
+        /* Dibujar vertices */
         glBindVertexArray(VAO); 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
