@@ -34,14 +34,14 @@ struct rgb hsl2rgb(float h, float s, float l) {
   struct rgb result;
   
   if(0 == s) {
-    result.r = result.g = result.b = l * 255; // achromatic
+    result.r = result.g = result.b = l; // achromatic
   }
   else {
     float q = l < 0.5 ? l * (1 + s) : l + s - l * s;
     float p = 2 * l - q;
-    result.r = hue2rgb(p, q, h + 1./3) * 255;
-    result.g = hue2rgb(p, q, h) * 255;
-    result.b = hue2rgb(p, q, h - 1./3) * 255;
+    result.r = hue2rgb(p, q, h + 1./3);
+    result.g = hue2rgb(p, q, h);
+    result.b = hue2rgb(p, q, h - 1./3);
   }
 
   return result;
