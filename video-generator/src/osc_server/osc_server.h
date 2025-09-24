@@ -5,16 +5,12 @@
 
 int osc_server();
 
-extern std::atomic<int> msgSwitch1;
-extern std::atomic<int> msgSwitch2;
-extern std::atomic<float> attack1;
-extern std::atomic<float> release1;
-extern std::atomic<float> attack2;
-extern std::atomic<float> release2;
+extern std::atomic<float> envelopeLeft;
+extern std::atomic<float> param1Left;
+extern std::atomic<float> param2Left;
 
-// ===  TEST  ===
-extern std::atomic<float> testLeft;
-extern std::atomic<float> testRight;
-// == == == == ==
+extern std::atomic<float> envelopeRight;
+extern std::atomic<float> param1Right;
+extern std::atomic<float> param2Right;
 
 #endif

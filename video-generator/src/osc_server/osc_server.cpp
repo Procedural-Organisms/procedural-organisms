@@ -28,44 +28,22 @@ int osc_server(){
     std::cerr << "OSC server URL: " << oscServer.url() << std::endl;
     
 
-    // ===  TEST  ===
-    oscServer.add_method(
-        "/testLeft", "f",
-        [](lo_arg** argv, int){
-            testLeft.store(argv[0]->f, std::memory_order_relaxed);
-        }
-    );
-
-    oscServer.add_method(
-        "/testRight", "f",
-        [](lo_arg** argv, int){
-            testRight.store(argv[0]->f, std::memory_order_relaxed);
-        }
-    );
-    // == == == == ==
-
-
     // crear handler functions
-    // TODO quitar trigger de direccion
-    oscServer.add_method("/rightFlash", "iff",
+    oscServer.add_method(
+        "/leftColor", "fff",
         [](lo_arg** argv, int){
-            attack1.store(argv[1]->f, std::memory_order_relaxed);
-            release1.store(argv[2]->f, std::memory_order_relaxed);
-            if(argv[0]->i == 1){
-                msgSwitch1.store(1, std::memory_order_relaxed);
-            }
-        
+            envelopeLeft.store(argv[0]->f, std::memory_order_relaxed);
+            param1Left.store(argv[1]->f, std::memory_order_relaxed);
+            param2Left.store(argv[2]->f, std::memory_order_relaxed);
         }
     );
 
-    // TODO quitar trigger de direccion
-    oscServer.add_method("/leftFlash", "iff",
+    oscServer.add_method(
+        "/rightColor", "fff",
         [](lo_arg** argv, int){
-            attack2.store(argv[1]->f, std::memory_order_relaxed);
-            release2.store(argv[2]->f, std::memory_order_relaxed);
-            if(argv[0]->i == 1){
-                msgSwitch2.store(1, std::memory_order_relaxed);
-            }
+            envelopeRight.store(argv[0]->f, std::memory_order_relaxed);
+            param1Right.store(argv[1]->f, std::memory_order_relaxed);
+            param2Right.store(argv[2]->f, std::memory_order_relaxed);
         }
     );
 

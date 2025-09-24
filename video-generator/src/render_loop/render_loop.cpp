@@ -6,8 +6,6 @@
 #include <fstream>              // creacion de flags
 #include <filesystem>           // lectura de flags
 
-#include "../osc_in_loop/osc_in_loop.h" // funciones con mensajes OSC
-
 #include "render_loop.h"
 
 void render_loop(){
@@ -32,34 +30,25 @@ void render_loop(){
         float timeValue = elapsed.count();
 
 
-        /* Generar funciones:
-            generamos una funcion senoseudal usando el tiempo actual como variable y guardamos
-            sus valores en la variable sinNormalizada. lugego con la funcion glGetUniformLocations
-            localizamos todas las menciones de la uniforme sinGenerator en en shaderProgram y las
-            guardamos en la variable sinesLocations.
-            luego que le decimos a OpenGL que utilice ese programa shaderProgram y que vicule 
-            nuestra variable en el source sinNormalizada con las localizaciones en el shaderProgram
-            donde se menciona sinGenerator */
-        float normalizedSin1 = (std::sin(2 * M_PI * 0.083f * timeValue) / 2.0f) + 0.5f;
-        float normalizedSin2 = (std::sin(2 * M_PI * 0.079f * timeValue) / 2.0f) + 0.5f;
-        int sin1Locations = glGetUniformLocation(shaderProgram, "sinGenerator1");
-        int sin2Locations = glGetUniformLocation(shaderProgram, "sinGenerator2");
-        int ramp1Locations = glGetUniformLocation(shaderProgram, "rampGenerator1");
-        int ramp2Locations = glGetUniformLocation(shaderProgram, "rampGenerator2");
-        glUseProgram(shaderProgram);
-        glUniform1f(sin1Locations, normalizedSin1);
-        glUniform1f(sin2Locations, normalizedSin2);
-        glUniform1f(ramp1Locations, attRelGenerator1);
-        glUniform1f(ramp2Locations, attRelGenerator2);
+        /* Guardar mensajes continuos osc en variables atomicas y mandarlas
+            a las uniformes dentro de los shaders */
+        float envelopeLeftLocations = glGetUniformLocation(shaderProgram, "envelopeLeft");
+        float param1LeftLocations = glGetUniformLocation(shaderProgram, "param1Left");
+        float param2LeftLocations = glGetUniformLocation(shaderProgram, "param2Left");
 
-        // ===  TEST  === 
-        std::atomic<float> testLeft = osc_in_loop(0);
-        float testLeftLocations = glGetUniformLocation(shaderProgram, "testLeft");
-        glUniform1f(testLeftLocations, testLeft);
-        std::atomic<float> testRight = osc_in_loop(1);
-        float testRightLocations = glGetUniformLocation(shaderProgram, "testRight");
-        glUniform1f(testRightLocations, testRight);
-        // == == == == == 
+        float envelopeRightLocations = glGetUniformLocation(shaderProgram, "envelopeRight");
+        float param1RightLocations = glGetUniformLocation(shaderProgram, "param1Right");
+        float param2RightLocations = glGetUniformLocation(shaderProgram, "param2Right");
+
+        glUseProgram(shaderProgram);
+
+        glUniform1f(envelopeLeftLocations, envelopeLeft.load(std::memory_order_relaxed));
+        glUniform1f(param1LeftLocations, param1Left.load(std::memory_order_relaxed));
+        glUniform1f(param2LeftLocations, param2Left.load(std::memory_order_relaxed));
+
+        glUniform1f(envelopeRightLocations, envelopeRight.load(std::memory_order_relaxed));
+        glUniform1f(param1RightLocations, param1Right.load(std::memory_order_relaxed));
+        glUniform1f(param2RightLocations, param2Right.load(std::memory_order_relaxed));
 
 
         /* definir un color con el cual limpiar el color buffer y limpiarlo:

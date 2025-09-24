@@ -29,18 +29,14 @@ bool running = true;
     al que lo tenga que guardar */
 std::chrono::steady_clock::time_point startTime = std::chrono::steady_clock::now();
 
-// Variables para OSC tigger
-std::atomic<int> msgSwitch1{0};
-std::atomic<float> attack1{0.01};
-std::atomic<float> release1{0.2};
-std::atomic<int> msgSwitch2{0};
-std::atomic<float> attack2{0.01};
-std::atomic<float> release2{0.2};
+// Variables para OSC
+std::atomic<float> envelopeLeft{0.0};
+std::atomic<float> param1Left{0.0};
+std::atomic<float> param2Left{0.0};
 
-// ===  TEST  ===
-std::atomic<float> testLeft{0};
-std::atomic<float> testRight{0};
-// == == == == ==
+std::atomic<float> envelopeRight{0.0};
+std::atomic<float> param1Right{0.0};
+std::atomic<float> param2Right{0.0};
 
 // Dimensiones de imagen
 const int width = 400;

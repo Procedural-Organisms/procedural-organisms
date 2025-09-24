@@ -15,7 +15,12 @@ extern std::vector<unsigned char> buffer;
 extern const int width;
 extern const int height;
 
-extern float attRelGenerator1;
-extern float attRelGenerator2;
+extern std::atomic<float> envelopeLeft;
+extern std::atomic<float> param1Left;
+extern std::atomic<float> param2Left;
+
+extern std::atomic<float> envelopeRight;
+extern std::atomic<float> param1Right;
+extern std::atomic<float> param2Right;
 
 #endif
