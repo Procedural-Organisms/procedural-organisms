@@ -29,6 +29,7 @@ def sendRightPerc():
     rightPercCurve = norm.minmax(parametersVector[5], 0.05, tf.period1)
 
     osc_send(oscbuildparse.OSCMessage(
+        # TODO cambiar nombre de direccion
         '/rightPerc', ',ifffff',
         [
             trigger,
@@ -57,6 +58,7 @@ def sendLeftPerc():
     leftPercCurve = norm.minmax(parametersVector[11], 0.05, tf.period2)
 
     osc_send(oscbuildparse.OSCMessage(
+        # TODO cambiar nombre de direccion
         '/leftPerc', ',ifffff',
         [
             trigger,
@@ -69,7 +71,6 @@ def sendLeftPerc():
     ),'scClient')
 
 
-# ===  TEST  ===
 def sendLeftColor():
     parametersVector[12] = 1
     parametersVector[13] = parametersVector[1]
@@ -79,6 +80,8 @@ def sendLeftColor():
     parametersVector[17] = parametersVector[5]
 
     trigger = parametersVector[12]
+    leftParam1 = parametersVector[13]
+    leftParam2 = parametersVector[14]
     leftPercRelease = norm.minmax(parametersVector[16], 0.05, tf.period2)
     leftPercAttack = norm.minmax(parametersVector[15], 0.05, tf.period2 - leftPercRelease)
     leftPercCurve = norm.minmax(parametersVector[17], 0.05, tf.period2)
@@ -87,14 +90,15 @@ def sendLeftColor():
         '/leftColor', ',ifffff',
         [
             trigger,
-            parametersVector[13],
-            parametersVector[14],
+            leftParam1,
+            leftParam2,
             leftPercAttack,
             leftPercRelease,
             leftPercCurve
         ] 
     ),'scClient')
     
+
 def sendRightColor():
     parametersVector[18] = 1
     parametersVector[19] = parametersVector[7]
@@ -104,6 +108,8 @@ def sendRightColor():
     parametersVector[23] = parametersVector[11]
 
     trigger = parametersVector[18]
+    rightParam1 = parametersVector[19]
+    rightParam2 = parametersVector[20]
     leftPercRelease = norm.minmax(parametersVector[22], 0.05, tf.period2)
     leftPercAttack = norm.minmax(parametersVector[21], 0.05, tf.period2 - leftPercRelease)
     leftPercCurve = norm.minmax(parametersVector[23], 0.05, tf.period2)
@@ -112,11 +118,10 @@ def sendRightColor():
         '/rightColor', ',ifffff',
         [
             trigger,
-            parametersVector[19],
-            parametersVector[20],
+            rightParam1,
+            rightParam2,
             leftPercAttack,
             leftPercRelease,
             leftPercCurve
         ]
     ), 'scClient')
-# == == == == ==
