@@ -11,9 +11,6 @@
 #include "render_loop/render_loop.h"
 #include "osc_server/osc_server.h"
 
-// ===  TEST  ===
-#include "colorspaces/HSL.h"
-// == == == == ==
 
 // ==================== Declaracion de variables ====================
 bool running = true;
@@ -47,12 +44,8 @@ unsigned int VBO;
 unsigned int VAO;
 unsigned int EBO;
 
-int main(){
-    // ===  TEST  ===
-    struct rgb rgb = hsl2rgb(0.5f, 0.5f, 0.5f);
-    std::cerr << rgb.r << " " << rgb.g << " " << rgb.b << std::endl;
-    // == == == == ==
 
+int main(){
     // Inicializar contexto OpenGL con GLFW
     if(gl_context() != 0) {
         return -1;

@@ -1,14 +1,3 @@
-// o = Server(\funcGenServer, NetAddr("127.0.0.1", 57111));
-// o.boot;
-
-// s.boot;
-// crear un hoste con el que mandamos los mensajes osc
-// al servidos osc en el programa de OpenGL
-// no me permite usar el nombre ~client
-// TODO ver si me permite usar otro nombre que no sea ~host
-
-// thisProcess.openUDPPort(13934);
-
 ~transmiter = NetAddr("localhost", 13939);
 if(
     ~transmiter.isConnected == true,
@@ -46,8 +35,7 @@ s.waitForBoot{
     var param2Left;
     var param1Right;
     var param2Right;
-    // crear event loop que evalua el bus que contiene los valores de
-    // salida del envelope y los envia a travez de osc
+    
     var envelopeBusLeft = Bus.control(s, 1);
     var envelopeBusRight = Bus.control(s, 1);
 
@@ -91,6 +79,8 @@ s.waitForBoot{
         },"/rightColor"
     ));
 
+    // crear event loop que evalua el bus que contiene los valores de
+    // salida del envelope y los envia a travez de osc
     Routine(
         {
             // loop infinito

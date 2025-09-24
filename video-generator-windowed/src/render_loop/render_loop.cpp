@@ -19,7 +19,6 @@ void render_loop(){
         float timeValue = elapsed.count();
 
 
-        // ===  TEST  === 
         /* Guardar mensajes continuos osc en variables atomicas y mandarlas
             a las uniformes dentro de los shaders */
         float envelopeLeftLocations = glGetUniformLocation(shaderProgram, "envelopeLeft");
@@ -39,7 +38,6 @@ void render_loop(){
         glUniform1f(envelopeRightLocations, envelopeRight.load(std::memory_order_relaxed));
         glUniform1f(param1RightLocations, param1Right.load(std::memory_order_relaxed));
         glUniform1f(param2RightLocations, param2Right.load(std::memory_order_relaxed));
-        // == == == == == 
 
 
         /* Limpiar color buffer */

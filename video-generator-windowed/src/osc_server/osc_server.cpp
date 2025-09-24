@@ -29,7 +29,6 @@ int osc_server(){
     
 
     // crear handler functions
-    // ===  TEST  ===
     oscServer.add_method(
         "/leftColor", "fff",
         [](lo_arg** argv, int){
@@ -47,7 +46,6 @@ int osc_server(){
             param2Right.store(argv[2]->f, std::memory_order_relaxed);
         }
     );
-    // == == == == ==
 
 
     // iniciar el servidor
