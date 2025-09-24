@@ -42,13 +42,13 @@ try:
     # para ejecutar en el event loop
     event_loop(
         # metodos para repetir argumentos dentro de objetos Looped_Function
-#        lambda: rightPercLooped.loop_function(tf.period1),
+        lambda: rightPercLooped.loop_function(tf.period1),
         lambda: leftPercLooped.loop_function(tf.period2),
         # lambda: rightFlashTrigger.loop_function(tf.period1),
         # lambda: leftFlashTrigger.loop_function(tf.period2),
 
         # ===  TEST  ===
-#        lambda: leftColorLooped.loop_function(tf.period1),
+        lambda: leftColorLooped.loop_function(tf.period1),
         lambda: rightColorLooped.loop_function(tf.period2),
         # == == == == ==
     )
