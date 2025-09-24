@@ -95,7 +95,7 @@ def sendLeftColor():
         ] 
     ),'scClient')
     
-def testRight():
+def sendRightColor():
     parametersVector[18] = 1
     parametersVector[19] = parametersVector[7]
     parametersVector[20] = parametersVector[8]
@@ -104,18 +104,16 @@ def testRight():
     parametersVector[23] = parametersVector[11]
 
     trigger = parametersVector[18]
-    leftPercCarfreq = norm.geo_minmax(parametersVector[19], 50.0, 1000.0)
-    leftPercModfreq = norm.geo_minmax(parametersVector[20], 50.0, 1000.0)
     leftPercRelease = norm.minmax(parametersVector[22], 0.05, tf.period2)
     leftPercAttack = norm.minmax(parametersVector[21], 0.05, tf.period2 - leftPercRelease)
     leftPercCurve = norm.minmax(parametersVector[23], 0.05, tf.period2)
 
     osc_send(oscbuildparse.OSCMessage(
-        '/testRight', ',ifffff',
+        '/rightColor', ',ifffff',
         [
             trigger,
-            leftPercCarfreq,
-            leftPercModfreq,
+            parametersVector[19],
+            parametersVector[20],
             leftPercAttack,
             leftPercRelease,
             leftPercCurve

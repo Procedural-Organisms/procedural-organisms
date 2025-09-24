@@ -33,7 +33,6 @@ int osc_server(){
     oscServer.add_method(
         "/leftColor", "fff",
         [](lo_arg** argv, int){
-            std::cerr << "Received: " << argv[0]->f << ", " << argv[1]->f << ", " << argv[2]->f << std::endl;
             envelopeLeft.store(argv[0]->f, std::memory_order_relaxed);
             param1Left.store(argv[1]->f, std::memory_order_relaxed);
             param2Left.store(argv[2]->f, std::memory_order_relaxed);
@@ -41,9 +40,11 @@ int osc_server(){
     );
 
     oscServer.add_method(
-        "/testRight", "f",
+        "/rightColor", "fff",
         [](lo_arg** argv, int){
-            testRight.store(argv[0]->f, std::memory_order_relaxed);
+            envelopeRight.store(argv[0]->f, std::memory_order_relaxed);
+            param1Right.store(argv[1]->f, std::memory_order_relaxed);
+            param2Right.store(argv[2]->f, std::memory_order_relaxed);
         }
     );
     // == == == == ==

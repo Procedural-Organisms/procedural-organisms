@@ -25,9 +25,9 @@ vec3 hsl2rgb(in vec3 c)
 void main(){
     // FragColor = vec4(envelopeLeft * 0.95, envelopeRight * 0.75, 0.65, 1.0);
     FragColor = vec4(hsl2rgb(vec3(
-        param2Left,
-        envelopeLeft * param1Left * 0.3,
-        (1 - (envelopeLeft * param2Left)) * (0.4) + 0.3
+        param2Right,
+        envelopeRight * param1Right * 0.3,
+        (1 - (envelopeRight * param2Right)) * (0.4) + 0.3
     )), 1.0);
 }
 

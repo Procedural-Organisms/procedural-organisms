@@ -44,6 +44,8 @@ SynthDef(
 s.waitForBoot{
     var param1Left;
     var param2Left;
+    var param1Right;
+    var param2Right;
     // crear event loop que evalua el bus que contiene los valores de
     // salida del envelope y los envia a travez de osc
     var envelopeBusLeft = Bus.control(s, 1);
@@ -84,7 +86,9 @@ s.waitForBoot{
                     ]
                 )
             );
-        },"/testRight"
+            param1Right = msg[2];
+            param2Right = msg[3];
+        },"/rightColor"
     ));
 
     Routine(
@@ -98,7 +102,7 @@ s.waitForBoot{
                 envelopeLeft = envelopeBusLeft.getSynchronous;
                 ~transmiter.sendMsg("/leftColor", envelopeLeft, param1Left, param2Left);
                 envelopeRight = envelopeBusRight.getSynchronous;
-                ~transmiter.sendMsg("/testRight", envelopeRight);
+                ~transmiter.sendMsg("/rightColor", envelopeRight, param1Right, param2Right);
                 // limitar loop al doble de la velocidad que planeo
                 // transmitir video
                 (1/60).wait;

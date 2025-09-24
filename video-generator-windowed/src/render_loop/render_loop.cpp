@@ -5,13 +5,11 @@
 #include <chrono>               // utilidades de tiempo
 #include <cmath>                // funciones matematicas como sin()
 
-#include "../osc_in_loop/osc_in_loop.h"
-
 #include "render_loop.h"
 
 void render_loop(){
     // Render loop que termina cuando se cierra la ventana o se presiona ESC
-    while (!glfwWindowShouldClose(window)) {
+    while (!glfwWindowShouldClose(window)){
         // Procesar input
         processInput(window);
 
@@ -27,10 +25,10 @@ void render_loop(){
         float envelopeLeftLocations = glGetUniformLocation(shaderProgram, "envelopeLeft");
         float param1LeftLocations = glGetUniformLocation(shaderProgram, "param1Left");
         float param2LeftLocations = glGetUniformLocation(shaderProgram, "param2Left");
-        std::cerr << envelopeLeft << std::endl;
 
-        testRight.load(std::memory_order_relaxed);
-        float testRightLocations = glGetUniformLocation(shaderProgram, "envelopeRight");
+        float envelopeRightLocations = glGetUniformLocation(shaderProgram, "envelopeRight");
+        float param1RightLocations = glGetUniformLocation(shaderProgram, "param1Right");
+        float param2RightLocations = glGetUniformLocation(shaderProgram, "param2Right");
 
         glUseProgram(shaderProgram);
 
@@ -38,7 +36,9 @@ void render_loop(){
         glUniform1f(param1LeftLocations, param1Left.load(std::memory_order_relaxed));
         glUniform1f(param2LeftLocations, param2Left.load(std::memory_order_relaxed));
 
-        glUniform1f(testRightLocations, testRight);
+        glUniform1f(envelopeRightLocations, envelopeRight.load(std::memory_order_relaxed));
+        glUniform1f(param1RightLocations, param1Right.load(std::memory_order_relaxed));
+        glUniform1f(param2RightLocations, param2Right.load(std::memory_order_relaxed));
         // == == == == == 
 
 

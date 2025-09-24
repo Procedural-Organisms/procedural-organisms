@@ -27,7 +27,9 @@ std::atomic<float> envelopeLeft{0.0};
 std::atomic<float> param1Left{0.0};
 std::atomic<float> param2Left{0.0};
 
-std::atomic<float> testRight{0.0};
+std::atomic<float> envelopeRight{0.0};
+std::atomic<float> param1Right{0.0};
+std::atomic<float> param2Right{0.0};
 // == == == == ==
 
 // Dimensiones de ventana

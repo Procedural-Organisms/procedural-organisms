@@ -10,7 +10,9 @@ extern std::atomic<float> envelopeLeft;
 extern std::atomic<float> param1Left;
 extern std::atomic<float> param2Left;
 
-extern std::atomic<float> testRight;
+extern std::atomic<float> envelopeRight;
+extern std::atomic<float> param1Right;
+extern std::atomic<float> param2Right;
 // == == == == ==
 
 #endif
