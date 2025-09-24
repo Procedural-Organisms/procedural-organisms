@@ -19,7 +19,6 @@ bool running = true;
 std::chrono::steady_clock::time_point startTime = std::chrono::steady_clock::now();
 
 // Variables para OSC
-// ===  TEST  ===
 std::atomic<float> envelopeLeft{0.0};
 std::atomic<float> param1Left{0.0};
 std::atomic<float> param2Left{0.0};
@@ -27,7 +26,6 @@ std::atomic<float> param2Left{0.0};
 std::atomic<float> envelopeRight{0.0};
 std::atomic<float> param1Right{0.0};
 std::atomic<float> param2Right{0.0};
-// == == == == ==
 
 // Dimensiones de ventana
 const int width = 800;
