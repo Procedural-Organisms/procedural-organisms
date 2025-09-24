@@ -1,26 +1,15 @@
 #version 330 core
 
 //= INPUTS ==
-
 // buffer with position vectors
 layout(location = 0) in vec3 aPos;
-// uniforms
-uniform float paramLeft1;
-uniform float paramLeft2;
-uniform float paramLeft3;
-// =:=:=:=:=:=:=:=:=:=
-uniform float paramRight1;
-uniform float paramRight2;
-uniform float paramRight3;
 
 
 //= OUTPUTS ==
-
 // __(code)__
 
 
 //= MAIN ==
-
 void main(){
     gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
 }

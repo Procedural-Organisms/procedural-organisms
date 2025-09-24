@@ -6,7 +6,10 @@
 int osc_server();
 
 // ===  TEST  ===
-extern std::atomic<float> testLeft;
+extern std::atomic<float> envelopeLeft;
+extern std::atomic<float> param1Left;
+extern std::atomic<float> param2Left;
+
 extern std::atomic<float> testRight;
 // == == == == ==
 

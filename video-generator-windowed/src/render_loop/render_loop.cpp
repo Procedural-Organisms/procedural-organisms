@@ -20,24 +20,27 @@ void render_loop(){
         std::chrono::duration<float> elapsed = now - startTime;
         float timeValue = elapsed.count();
 
+
+        // ===  TEST  === 
         /* Guardar mensajes continuos osc en variables atomicas y mandarlas
             a las uniformes dentro de los shaders */
-        // ===  TEST  === 
-        testLeft.store(osc_in_loop(0), std::memory_order_relaxed);
-        float testLeftLocations = glGetUniformLocation(shaderProgram, "envelopeLeft");
+        float envelopeLeftLocations = glGetUniformLocation(shaderProgram, "envelopeLeft");
+        float param1LeftLocations = glGetUniformLocation(shaderProgram, "param1Left");
+        float param2LeftLocations = glGetUniformLocation(shaderProgram, "param2Left");
+        std::cerr << envelopeLeft << std::endl;
 
-        testRight.store(osc_in_loop(1), std::memory_order_relaxed);
+        testRight.load(std::memory_order_relaxed);
         float testRightLocations = glGetUniformLocation(shaderProgram, "envelopeRight");
-        if(testRight > 0){
-            std::cerr << testRight << std::endl;
-        }
 
         glUseProgram(shaderProgram);
-        
-        // ===  TEST  === 
-        glUniform1f(testLeftLocations, testLeft);
+
+        glUniform1f(envelopeLeftLocations, envelopeLeft.load(std::memory_order_relaxed));
+        glUniform1f(param1LeftLocations, param1Left.load(std::memory_order_relaxed));
+        glUniform1f(param2LeftLocations, param2Left.load(std::memory_order_relaxed));
+
         glUniform1f(testRightLocations, testRight);
         // == == == == == 
+
 
         /* Limpiar color buffer */
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);

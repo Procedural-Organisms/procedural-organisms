@@ -42,6 +42,8 @@ SynthDef(
 ).add;
 
 s.waitForBoot{
+    var param1Left;
+    var param2Left;
     // crear event loop que evalua el bus que contiene los valores de
     // salida del envelope y los envia a travez de osc
     var envelopeBusLeft = Bus.control(s, 1);
@@ -62,7 +64,9 @@ s.waitForBoot{
                     ]
                 )
             );
-        },"/testLeft"
+            param1Left = msg[2];
+            param2Left = msg[3];
+        },"/leftColor"
     ));
 
     (~osc = OSCFunc(
@@ -92,7 +96,7 @@ s.waitForBoot{
                 var envelopeLeft = 0.0;
                 var envelopeRight = 0.0;
                 envelopeLeft = envelopeBusLeft.getSynchronous;
-                ~transmiter.sendMsg("/testLeft", envelopeLeft);
+                ~transmiter.sendMsg("/leftColor", envelopeLeft, param1Left, param2Left);
                 envelopeRight = envelopeBusRight.getSynchronous;
                 ~transmiter.sendMsg("/testRight", envelopeRight);
                 // limitar loop al doble de la velocidad que planeo

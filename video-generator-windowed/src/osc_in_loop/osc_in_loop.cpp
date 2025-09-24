@@ -1,3 +1,5 @@
+// TODO BORRAR ARCHIVO
+
 # include <iostream>
 # include <atomic>
 # include <chrono>
@@ -21,7 +23,7 @@ std::atomic<float> osc_in_loop(int functionIndex = 0){
 
     // ===  TEST  ===  
     if(functionIndex == 0){
-        return testLeft.load(std::memory_order_relaxed);
+        return envelopeLeft.load(std::memory_order_relaxed);
     }
     if(functionIndex == 1){
         return testRight.load(std::memory_order_relaxed);

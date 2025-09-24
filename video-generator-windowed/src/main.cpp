@@ -23,8 +23,11 @@ std::chrono::steady_clock::time_point startTime = std::chrono::steady_clock::now
 
 // Variables para OSC
 // ===  TEST  ===
-std::atomic<float> testLeft{0};
-std::atomic<float> testRight{0};
+std::atomic<float> envelopeLeft{0.0};
+std::atomic<float> param1Left{0.0};
+std::atomic<float> param2Left{0.0};
+
+std::atomic<float> testRight{0.0};
 // == == == == ==
 
 // Dimensiones de ventana

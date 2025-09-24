@@ -31,9 +31,12 @@ int osc_server(){
     // crear handler functions
     // ===  TEST  ===
     oscServer.add_method(
-        "/testLeft", "f",
+        "/leftColor", "fff",
         [](lo_arg** argv, int){
-            testLeft.store(argv[0]->f, std::memory_order_relaxed);
+            std::cerr << "Received: " << argv[0]->f << ", " << argv[1]->f << ", " << argv[2]->f << std::endl;
+            envelopeLeft.store(argv[0]->f, std::memory_order_relaxed);
+            param1Left.store(argv[1]->f, std::memory_order_relaxed);
+            param2Left.store(argv[2]->f, std::memory_order_relaxed);
         }
     );
 

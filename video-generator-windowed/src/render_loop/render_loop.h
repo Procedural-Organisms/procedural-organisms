@@ -16,7 +16,10 @@ extern unsigned int EBO;
 extern const int width;
 extern const int height;
 
-extern std::atomic<float> testLeft;
+extern std::atomic<float> envelopeLeft;
+extern std::atomic<float> param1Left;
+extern std::atomic<float> param2Left;
+
 extern std::atomic<float> testRight;
 
 #endif

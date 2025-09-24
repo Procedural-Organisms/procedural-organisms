@@ -6,7 +6,7 @@
 std::atomic<float> osc_in_loop(int functionIndex);
 
 // ===  TEST  ===  
-extern std::atomic<float> testLeft;
+extern std::atomic<float> envelopeLeft;
 extern std::atomic<float> testRight;
 // == == == == ==
 

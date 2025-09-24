@@ -24,17 +24,9 @@ leftPercLooped = tf.LoopedFunction(
     lambda: oscm.sendLeftPerc()
 )
 
-leftFlashTrigger = tf.LoopedFunction(
-    lambda: oscm.sendRightFlash()
-)
-
-rightFlashTrigger = tf.LoopedFunction(
-    lambda: oscm.sendLeftFlash()
-)
-
 # ===  TEST  ===
-testerLeft = tf.LoopedFunction(
-    lambda: oscm.testLeft()
+leftColorLooped = tf.LoopedFunction(
+    lambda: oscm.sendLeftColor()
 )
 testerRight = tf.LoopedFunction(
     lambda: oscm.testRight()
@@ -51,13 +43,13 @@ try:
     event_loop(
         # metodos para repetir argumentos dentro de objetos Looped_Function
         lambda: rightPercLooped.loop_function(tf.period1),
-        lambda: leftPercLooped.loop_function(tf.period2),
+#        lambda: leftPercLooped.loop_function(tf.period2),
         # lambda: rightFlashTrigger.loop_function(tf.period1),
         # lambda: leftFlashTrigger.loop_function(tf.period2),
 
         # ===  TEST  ===
-        lambda: testerLeft.loop_function(tf.period1),
-        lambda: testerRight.loop_function(tf.period2),
+        lambda: leftColorLooped.loop_function(tf.period1),
+#        lambda: testerRight.loop_function(tf.period2),
         # == == == == ==
     )
 # TODO limpiar recursos con cualquier tipo de salida del programa

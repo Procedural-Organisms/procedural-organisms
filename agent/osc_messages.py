@@ -70,7 +70,7 @@ def sendLeftPerc():
 
 
 # ===  TEST  ===
-def testLeft():
+def sendLeftColor():
     parametersVector[12] = 1
     parametersVector[13] = parametersVector[1]
     parametersVector[14] = parametersVector[2]
@@ -79,18 +79,16 @@ def testLeft():
     parametersVector[17] = parametersVector[5]
 
     trigger = parametersVector[12]
-    leftPercCarfreq = norm.geo_minmax(parametersVector[13], 50.0, 1000.0)
-    leftPercModfreq = norm.geo_minmax(parametersVector[14], 50.0, 1000.0)
     leftPercRelease = norm.minmax(parametersVector[16], 0.05, tf.period2)
     leftPercAttack = norm.minmax(parametersVector[15], 0.05, tf.period2 - leftPercRelease)
     leftPercCurve = norm.minmax(parametersVector[17], 0.05, tf.period2)
 
     osc_send(oscbuildparse.OSCMessage(
-        '/testLeft', ',ifffff',
+        '/leftColor', ',ifffff',
         [
             trigger,
-            leftPercCarfreq,
-            leftPercModfreq,
+            parametersVector[13],
+            parametersVector[14],
             leftPercAttack,
             leftPercRelease,
             leftPercCurve
@@ -124,42 +122,3 @@ def testRight():
         ]
     ), 'scClient')
 # == == == == ==
-
-
-# def sendRightFlash():
-#     parametersVector[12] = 1
-#     parametersVector[13] = parametersVector[3]
-#     parametersVector[14] = parametersVector[4]
-
-#     trigger = parametersVector[12]
-#     rightFlashRelease = norm.minmax(parametersVector[14], 0.05, tf.period1)
-#     rightFlashAttack = norm.minmax(parametersVector[13], 0.05, tf.period1 - rightFlashRelease)
-
-#     osc_send(oscbuildparse.OSCMessage(
-#         '/rightFlash', ',iff',
-#         [
-#             trigger,
-#             rightFlashAttack,
-#             rightFlashRelease,
-#         ]   
-#     ),'oglClient')
-
-
-# def sendLeftFlash():
-#     parametersVector[15] = 1
-#     parametersVector[16] = parametersVector[9]
-#     parametersVector[17] = parametersVector[10]
-
-#     trigger = parametersVector[15]
-#     leftFlashRelease = norm.minmax(parametersVector[17], 0.05, tf.period2)
-#     leftFlashAttack = norm.minmax(parametersVector[16], 0.05, tf.period2 - leftFlashRelease)
-
-#     osc_send(oscbuildparse.OSCMessage(
-#         '/leftFlash', ',iff',
-#         [
-#             trigger,
-#             leftFlashAttack,
-#             leftFlashRelease,
-#         ]   
-#     ),'oglClient')
-
