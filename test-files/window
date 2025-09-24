@@ -1,3 +1,3 @@
 #!/bin/bash
 
-ffplay rtmp://localhost:13093/test
+ffplay rtmp://localhost:13933/test

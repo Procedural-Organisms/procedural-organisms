@@ -3,11 +3,14 @@ s.options.blockSize = 512;
 s.options.sampleRate = 48000;
 s.options.recHeaderFormat = "raw";
 s.options.recSampleFormat = "int16";
-// TODO hacer canales de salida 0
 s.options.numOutputBusChannels = 2;
 s.options.numInputBusChannels = 0;
 s.options.maxLogins = 3;
 s.boot;
+
+~audio_ready = "temp/flags/audio_ready.flag";
+~video_started = "temp/flags/video_started.flag";
+~audio_pipe = "temp/pipes/audio_pipe";
 
 SynthDef("perc", {
     | carfreq = 89.0, modfreq = 365.0, pan = 0,
@@ -67,28 +70,19 @@ SynthDef("perc", {
 
 
 s.waitForBoot{
+    // crear flag de inicializacion de servidor
+    File(~audio_ready, "w").close;
+    "Audio server ready. Waiting for video.".postln;
+    
     Routine{
-        // TODO reactivar deteccion de flag
-        // var flagPath = ~video_started;
-        // while {File.exists(flagPath).not}{0.1.wait};
-        // "Video started, starting audio and transmition.".postln;
-        
-        Synth("perc", [
-            "carfreq", 194.0,
-            "modfreq", 97.0,
-            "pan", 1
-        ]);
-        Synth("perc", [
-            "carfreq", 89.0,
-            "modfreq", 365.0,
-            "pan", 0
-        ]);
+        var flagPath = ~video_started;
+        while {File.exists(flagPath).not}{0.1.wait};
+        "Video started, starting audio and transmition.".postln;
 
         // correccion de latencia
         {DelayN.ar(In.ar(100, 2), 5.0, 0.2)}.play();
 
         // transmitir a fifo
-        // TODO reactivar grabacion a fifo
-        // s.record(path: ~audio_pipe, numChannels: 2);
+        s.record(path: ~audio_pipe, numChannels: 2);
     }.play;
 };

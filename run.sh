@@ -23,7 +23,7 @@ video_started="temp/flags/video_started.flag"
 # localizacion de renderer
 video_generator="video-generator/build/video_generator"
 # lacalizacion de sintetizador
-audio_generator="audio-generator/script.scd"
+supercollider="supercollider-server/main.scd"
 # localizacion de output
 output="rtmp://a.rtmp.youtube.com/live2/caee-596b-76td-tv9k-8g21"
 
@@ -57,7 +57,7 @@ fi
 
 # inciciar script superCollider
 # que inicia servidor y espera a que comience la generacion de video
-sclang "$audio_generator" &
+sclang "$supercollider" &
 
 while [ ! -f "$audio_ready" ]; do
     sleep 0.1
