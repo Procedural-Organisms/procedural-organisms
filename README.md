@@ -1,4 +1,4 @@
-> **Disclaimer:** This is **not open source software**. Commercial use, including selling, redistribution for profit, or use as part of a paid service, is **restricted** under the project's license. Please refer to [LICENSE](LICENSE) and [LEGAL.md](LEGAL.md) for details.
+> **NOTICE:** This is **not open source software**. Commercial use, including selling, redistribution for profit, or use as part of a paid service, is **restricted** under the project's license. Please refer to [LICENSE](LICENSE) and [LEGAL.md](LEGAL.md) for details.
 # Procedural Organisms
 
 Algorithmic audiovisual music composition, expressed as continuously developing software.
