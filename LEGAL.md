@@ -1,9 +1,9 @@
 # Copyright Notice and Licensing
 
 ## Software
-This software is licensed under the Apache 2.0 License with the Commons Clause restriction. See LICENSE for details.
+This software is licensed under the Apache 2.0 License with the Commons Clause restriction. See [LICENSE](LICENSE) for details.
 
-## Audiovisual Composition (Code)
+## Audiovisual Muisc Composition (Code)
 The code that generates audio, visual, or audiovisual outputs is an original artistic composition by Diego Alejandro Morales Castillo, and is copyrighted as such.
 
 ## Generated Output (Music/Video)
