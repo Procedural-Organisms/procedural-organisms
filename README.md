@@ -1,7 +1,21 @@
 > **NOTICE:** This is **not open source software**. Commercial use, including selling, redistribution for profit, or use as part of a paid service, is **restricted** under the project's license. Please refer to [LICENSE](LICENSE) and [LEGAL.md](LEGAL.md) for details.
-# Procedural Organisms
+# País de Jauja
 
-Algorithmic audiovisual music composition, expressed as continuously developing software.
+A large-scale, multifaceted project that includes a series of concerts, the release of an album or EP, and continuous streaming of music and video based on both, where each step of the project also serves to develop the next.
+
+## Concept
+
+### Concerts
+
+A series of audio and video transmission instruments programmed with SuperCollider, OpenFrameworks, and Python, plus a series of MIDI controllers and a matrix-style program that decides which controller currently sends a signal to which audio or video synthesizer or synthesizers, while an agent learns through data input and machine listening to play the synthesizers, eventually gaining enough autonomy to continue the act on its own. The agent is also connected to the matrix to which the MIDI controllers are connected and can also have control over this matrix as well as over any control to which the human user has access.
+
+### Album
+
+A series of semi-improvised compositions based on live performance (and live performance based on pieces, making the album and concerts as close as possible).
+
+### Transmission
+
+Set up programs on a server and create a continuous transmission on YouTube of a version of the agent based on the previous phases, which also continues to train continuously with its output signals and the audio and video output of the synthesizers.
 
 ## Current state
 
